@@ -37,12 +37,12 @@ $nombre_usuario = $_SESSION['nombre'];
     <p>Bienvenido, <?php echo $nombre_usuario ?></p>
 </div>
 <div class="container-botones">
-    <button class="btn" type="submit">Ver Recibo de haberes</button>
-    <button class="btn" type="submit">Novedades</button>
-    <button class="btn" type="submit">Solicitudes</button>
-	<button class="btn" type="submit">Eventos</button> 
-    <button class="btn" type="submit">Vehiculos</button>
-    <button class="btn" type="submit">Empleados</button>
+    <a href="" class="btn">Ver Recibo de haberes</a>
+    <a href="" class="btn">Novedades</a>
+    <a href="" class="btn">Solicitudes</a>
+    <a href="" class="btn">Eventos</a>
+    <a href="" class="btn">Vehiculos</a>
+    <a href="empleados.php" class="btn">Empleados</a>
 </div>
 
 <script src="desplegable.js"></script>

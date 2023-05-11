@@ -42,12 +42,13 @@ $result = mysqli_query($conn, $sql);
         <li><a href="#">Recibo de sueldo</a></li>
     </ul>
 </nav>
-<div id='bienvenida'>
-    <p>Bienvenido, <?php echo $nombre_usuario ?></p>
-</div>
-<div id="usuarios">
-
-</div>
+<ul id="usuarios">
+    <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+        <li>
+            <p><?php echo $row['nombreApellido']." ".$row['dni'] ?></p>
+        </li>
+    <?php } ?>
+</ul>
 <script src="adm-scripts.js"></script>
 </body>
 </html>

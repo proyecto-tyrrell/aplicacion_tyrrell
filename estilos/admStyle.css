@@ -99,6 +99,8 @@ body {
   }
 
 .btn {
+  text-decoration: none;
+  text-align: center;
   background-color: #4CAF50;
   color: white;
   padding: 10px 20px;
@@ -108,7 +110,9 @@ body {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
-#btn:hover {
+
+.btn:hover {
+  background-color: #317634;
   transform: translateY(-5px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
