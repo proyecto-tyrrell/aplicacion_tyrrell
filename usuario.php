@@ -9,9 +9,8 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
-require 'ValidarCredenciales.php';
-// Obtener el nombre de usuario del parámetro de la URL
-$nombre_usuario = $_GET['nombreApe'];
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
 ?>
 
 <!DOCTYPE html>
@@ -20,12 +19,12 @@ $nombre_usuario = $_GET['nombreApe'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - adm</title>
-    <link rel="stylesheet" href="estilos\admStyle.css">
+    <title>Tyrrell - usuario</title>
+    <link rel="stylesheet" href="estilos\usuarioStyle.css">
 </head>
 <body>
 <header>
-    <a href="index.php"><img src="imagenes\tyrrell.jpeg" alt="logo" id="logo"></a>
+    <a href="usuario.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
 </header>
 <nav id="sidebar">
     <button id="desplegar"></button>
@@ -34,12 +33,18 @@ $nombre_usuario = $_GET['nombreApe'];
         <li><a href="#">Recibo de sueldo</a></li>
     </ul>
 </nav>
-<?php
-    // Incluir la sección HTML en la que deseas mostrar el nombre de usuario
-    echo "<div id='bienvenida'>
-            <p>Bienvenido, $nombre_usuario</p>
-        </div>";
-?>
-<script src="adm-scripts.js"></script>
+<div id='bienvenida'>
+    <p>Bienvenido, <?php echo $nombre_usuario ?></p>
+</div>
+<div class="container-botones">
+    <button class="btn" type="submit">Ver Recibo de haberes</button>
+    <button class="btn" type="submit">Novedades</button>
+    <button class="btn" type="submit">Solicitudes</button>
+	<button class="btn" type="submit">Eventos</button> 
+    <button class="btn" type="submit">Vehiculos</button>
+    <button class="btn" type="submit">Empleados</button>
+</div>
+
+<script src="desplegable.js"></script>
 </body>
 </html>

@@ -1,4 +1,7 @@
 <?php
+
+require"ConexionDB.php";
+
 //obtener los valores de inicio de sesion
 session_start();
 
@@ -9,8 +12,14 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
-// Obtener el nombre de usuario
-$nombre_usuario = $_SESSION['nombre'];
+//consulta a la base de datos
+$sql = "SELECT * FROM usuarios WHERE 1";
+
+//conectarse a la base de datos
+$conn = connect();
+
+$result = mysqli_query($conn, $sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +28,7 @@ $nombre_usuario = $_SESSION['nombre'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - adm</title>
+    <title>Tyrrell - empleados</title>
     <link rel="stylesheet" href="estilos\admStyle.css">
 </head>
 <body>
@@ -36,15 +45,9 @@ $nombre_usuario = $_SESSION['nombre'];
 <div id='bienvenida'>
     <p>Bienvenido, <?php echo $nombre_usuario ?></p>
 </div>
-<div class="container-botones">
-    <button class="btn" type="submit">Ver Recibo de haberes</button>
-    <button class="btn" type="submit">Novedades</button>
-    <button class="btn" type="submit">Solicitudes</button>
-	<button class="btn" type="submit">Eventos</button> 
-    <button class="btn" type="submit">Vehiculos</button>
-    <button class="btn" type="submit">Empleados</button>
-</div>
+<div id="usuarios">
 
+</div>
 <script src="adm-scripts.js"></script>
 </body>
 </html>
