@@ -12,8 +12,22 @@ $sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
 
 $result = mysqli_query($conn , $sql)
 
-?>
 
+?>
+<?php
+//obtener los valores de inicio de sesion
+session_start();
+
+//verificar si el token de inicio de sesion esta presente en la variable $_session
+if (empty($_SESSION['token'])) {
+    //si no esta el token de inicio de sesion redirigir al index
+    header('Location: index.php');
+    exit;
+}
+
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
+?>
 
 
 <!DOCTYPE html>
@@ -38,7 +52,7 @@ $result = mysqli_query($conn , $sql)
 
 <!-- Formulario para enviar problemas con los vehiculos -->
     <form action="enviar_correo.php" method="post">
-            <label for="lista">Seleccione un vehiculo:</label>
+            <label for="lista"><?php echo $nombre_usuario ?> Seleccione un vehiculo:</label>
             <select name="lista" id="lista">
                 <?php 
                     // Generar las opciones de la lista desplegable
@@ -59,7 +73,7 @@ $result = mysqli_query($conn , $sql)
 
             <br><br>
             <div>
-                <button type="submit">Login</button>
+                <button type="submit">Enviar</button>
             </div>
             
     </form>
