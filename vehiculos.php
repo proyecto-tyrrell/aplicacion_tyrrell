@@ -42,13 +42,13 @@ $result = mysqli_query($conn , $sql)
             <select name="lista" id="lista">
                 <?php 
                     // Generar las opciones de la lista desplegable
-                    while ($fila = mysqli_fetch_assoc($resultad)) {
+                    while ($fila = mysqli_fetch_assoc($result)) {
                         echo "<option value='" . $fila['modelo'] . "'>" . $fila['patente'] . "</option>";
                     }
 
                     // Liberar los resultados y cerrar la conexión
-                    mysqli_free_result($resultados);
-                    mysqli_close($conexion);
+                    mysqli_free_result($result);
+                    mysqli_close($conn);
                 ?>
             </select>
 
@@ -58,8 +58,10 @@ $result = mysqli_query($conn , $sql)
             <textarea name="problema" id="problema" rows="4" cols="50"></textarea>
 
             <br><br>
-
-            <input type="submit" value="Enviar">
+            <div>
+                <button type="submit">Login</button>
+            </div>
+            
     </form>
 
 
