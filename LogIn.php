@@ -22,11 +22,13 @@ if ($resultados > 0){
     $_SESSION['nombre'] = $resultados['nombreApellido'];
     if ($resultados['categoria'] == 'adm'){
         //redirigir a la pagina de admins
+        $_SESSION['rol'] = 'adm';
         header("Location: adm.php");
         exit();
     }
     if ($resultados['categoria'] == 'usuario'){
         //redirigir a la pagina de usuarios
+        $_SESSION['rol'] = 'usr';
         header("Location: usuario.php");
         exit();
     }
