@@ -37,8 +37,8 @@ if (!empty($_POST['lista']) && !empty($_POST['problema'])) {
     $mensaje .= "Descripcion del problema: " . $problema;
 
     // Cabeceras del correo (correo del remitente)
-    $cabeceras = "From: " . $nombre_usuario;
-
+    //$cabeceras = "From: " . $nombre_usuario;
+    $cabeceras = "From: " ;
     // Enviar el correo electrónico
     if (mail($destinatario, $asunto, $mensaje, $cabeceras)) {
         echo "Correo enviado correctamente.";
