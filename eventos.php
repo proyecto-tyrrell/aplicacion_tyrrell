@@ -9,8 +9,6 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
-// Obtener el nombre de usuario
-$nombre_usuario = $_SESSION['nombre'];
 ?>
 
 <!DOCTYPE html>
