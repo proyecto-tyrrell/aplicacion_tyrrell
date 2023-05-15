@@ -1,5 +1,22 @@
 <?php 
 
+require"ConexionDB.php";
+
+//obtener los valores de inicio de sesion
+session_start();
+//conectarse a la base de datos
+$conn = connect();
+
+//QUERY
+$sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
+
+$result = mysqli_query($conn , $sql)
+
+
+?>
+
+
+<?php
 //obtener los valores de inicio de sesion
 session_start();
 
@@ -10,16 +27,8 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
-require"ConexionDB.php";
-
-//conectarse a la base de datos
-$conn = connect();
-
-//QUERY
-$sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
-
-$result = mysqli_query($conn , $sql)
-
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
 ?>
 
 
@@ -45,7 +54,7 @@ $result = mysqli_query($conn , $sql)
 
 <!-- Formulario para enviar problemas con los vehiculos -->
     <form action="enviar_correo.php" method="post">
-            <label for="lista">Seleccione un vehiculo:</label>
+            <label for="lista"><?php echo $nombre_usuario ?> Seleccione un vehiculo:</label>
             <select name="lista" id="lista">
                 <?php 
                     // Generar las opciones de la lista desplegable
@@ -57,6 +66,7 @@ $result = mysqli_query($conn , $sql)
                     mysqli_free_result($result);
                     mysqli_close($conn);
                 ?>
+   
             </select>
 
             <br><br>
