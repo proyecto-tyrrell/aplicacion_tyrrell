@@ -4,21 +4,6 @@ require"ConexionDB.php";
 
 //obtener los valores de inicio de sesion
 session_start();
-//conectarse a la base de datos
-$conn = connect();
-
-//QUERY
-$sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
-
-$result = mysqli_query($conn , $sql)
-
-
-?>
-
-
-<?php
-//obtener los valores de inicio de sesion
-session_start();
 
 //verificar si el token de inicio de sesion esta presente en la variable $_session
 if (empty($_SESSION['token'])) {
@@ -26,6 +11,14 @@ if (empty($_SESSION['token'])) {
     header('Location: index.php');
     exit;
 }
+
+//conectarse a la base de datos
+$conn = connect();
+
+//QUERY
+$sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
+
+$result = mysqli_query($conn , $sql);
 
 // Obtener el nombre de usuario
 $nombre_usuario = $_SESSION['nombre'];
@@ -43,14 +36,11 @@ $nombre_usuario = $_SESSION['nombre'];
 </head>
 <body>
 <header>
-    <a href="adm.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+    <a href="<?php if($_SESSION['rol'] == "adm"){echo "adm.php";}else{if($_SESSION['rol'] == "usr"){echo "usuario.php";}};?>" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
 </header>
 
 
 <!-- Seleccion de auto -->
-<div>
-    
-</div>
 
 <!-- Formulario para enviar problemas con los vehiculos -->
     <form action="enviar_correo.php" method="post">
