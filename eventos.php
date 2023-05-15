@@ -8,6 +8,9 @@ if (empty($_SESSION['token'])) {
     header('Location: index.php');
     exit;
 }
+
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
 ?>
 
 <!DOCTYPE html>
@@ -16,9 +19,22 @@ if (empty($_SESSION['token'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tyrrell - usuario</title>
+    <link rel="stylesheet" href="estilos\usuarioStyle.css">
 </head>
 <body>
-    
+<header>
+    <a href="<?php if($_SESSION['rol'] == "adm"){echo "adm.php";}else{if($_SESSION['rol'] == "usr"){echo "usuario.php";}};?>" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+</header>
+<nav id="sidebar">
+    <button id="desplegar"></button>
+    <ul>
+        <li><a href="adm-asistencia.php">Asistencia</a></li>
+        <li><a href="#">Recibo de sueldo</a></li>
+    </ul>
+</nav>
+
+
+<script src="desplegable.js"></script>
 </body>
 </html>

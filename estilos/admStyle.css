@@ -5,6 +5,9 @@ body {
 #logo{
   display:flex;
   justify-content: center;
+  width: 0%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*nav*/
