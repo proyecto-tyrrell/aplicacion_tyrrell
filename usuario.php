@@ -40,8 +40,8 @@ $nombre_usuario = $_SESSION['nombre'];
     <a href="" class="btn">Ver Recibo de haberes</a>
     <a href="" class="btn">Novedades</a>
     <a href="" class="btn">Solicitudes</a>
-    <a href="" class="btn">Eventos</a>
-    <a href="" class="btn">Vehiculos</a>
+    <a href="eventos.php" class="btn">Eventos</a>
+    <a href="vehiculos.php" class="btn">Vehiculos</a>
     <a href="empleados.php" class="btn">Empleados</a>
 </div>
 
