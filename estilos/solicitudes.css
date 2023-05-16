@@ -44,3 +44,27 @@ body {
     outline: none;
   }
   
+  /* Responsive styles */
+  @media screen and (max-width: 480px) {
+    form {
+      max-width: 100%;
+      padding: 10px;
+    }
+    
+    label {
+      font-size: 14px;
+    }
+    
+    select,
+    textarea {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    
+    button[type="submit"] {
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+  }
+  
+  
