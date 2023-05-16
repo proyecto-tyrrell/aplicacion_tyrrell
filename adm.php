@@ -39,7 +39,7 @@ $nombre_usuario = $_SESSION['nombre'];
 <div class="container-botones">
     <a href="" class="btn">Ver Recibo de haberes</a>
     <a href="" class="btn">Novedades</a>
-    <a href="" class="btn">Solicitudes</a>
+    <a href="solicitud.php" class="btn">Solicitudes</a>
     <a href="eventos.php" class="btn">Eventos</a>
     <a href="vehiculos.php" class="btn">Vehiculos</a>
     <a href="empleados.php" class="btn">Empleados</a>
