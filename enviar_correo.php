@@ -14,6 +14,9 @@ if (empty($_SESSION['token'])) {
 // Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
 $conn = connect();
 
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
+
 // Obtener la fecha actual
 $fecha_actual = date("Y/m/d");
 
@@ -34,6 +37,7 @@ if (!empty($_POST['lista']) && !empty($_POST['problema'])) {
     $mensaje .= "Descripcion del problema: " . $problema;
 
     // Cabeceras del correo (correo del remitente)
+    //$cabeceras = "From: " . $nombre_usuario;
     $cabeceras = "From: " ;
     // Enviar el correo electrónico
     if (mail($destinatario, $asunto, $mensaje, $cabeceras)) {
@@ -52,7 +56,10 @@ $id = mysqli_fetch_assoc($elemento_id);
 
 // Insertar los datos en la tabla eventoVehiculos
 $sql = "INSERT INTO mensajeVehiculos ( vehiculo_id,mensajeVehiculos, fecha) VALUES ('".$id['id']."', '$problema', '$fecha_actual')";
-mysqli_query($conn, $sql);
+if (mysqli_query($conn, $sql)) {
+    echo "Datos insertados correctamente en la tabla eventoVehiculos.";
+} else {
+    echo "Error al insertar los datos en la tabla eventoVehiculos: " . mysqli_error($conn);
+}
 
-header"Location:vehiculos.php";
 ?>
