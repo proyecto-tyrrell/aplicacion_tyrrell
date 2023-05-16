@@ -74,15 +74,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <header>
-        <a href="<?php if ($_SESSION['rol'] == "adm") {
+
+
+    <header class="logo.container">
+        
+        <a href="<?php if ($_SESSION['rol'] == "adm" ) {
                         echo "adm.php";
                     } else {
                         if ($_SESSION['rol'] == "usr") {
                             echo "usuario.php";
                         }
-                    } ?>" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+                    } ?>" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo" class="logo"></a>
+                    
     </header>
+
 
     <!-- FORMULARIO -->
 
