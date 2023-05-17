@@ -15,8 +15,13 @@ if (empty($_SESSION['token'])) {
 //conectarse a la base de datos
 $conn = connect();
 
+//proyectos
 $sqlProyectos = "SELECT * FROM proyectos ORDER BY codigo";
 $proyectos = mysqli_query($conn, $sqlProyectos);
+
+//vehiculos
+$sqlVehiculos = "SELECT * FROM vehiculos ORDER BY patente";
+$vehiculos = mysqli_query($conn, $sqlVehiculos);
 
 ?>
 
@@ -41,20 +46,50 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
     </ul>
 </nav>
 <form method="post">
-   <div>
+    <div>
         <label for="proyecto">Proyecto:</label>
-        <select name="proyecto" id="proyecto">
+        <select name="proyecto" id="proyecto" required>
             <option value="" selected disabled>Seleccione un proyecto</option>
             <?php
-                while ($P = mysqli_fetch_asocc($proyectos)){
+                while ($P = mysqli_fetch_assoc($proyectos)){
             ?>
                 <option value="<?php echo $P['id']; ?>"><?php echo $P['codigo']; ?></option>
             <?php
             }
             ?>
         </select>
-   </div>
-
+    </div>
+    <div>
+        <label for="fecha-inicio">Fecha y hora de inicio:</label>    
+        <input type="datetime-local" id="fecha-inicio" name="fecha-inicio" required>
+    </div>
+    <div>
+        <label for="fecha-fin">Fecha y hora de fin:</label>    
+        <input type="datetime-local" id="fecha-fin" name="fecha-fin" required>
+    </div>
+    <div>
+        <label for="cantidad-vehiculos">Cantidad de vehiculos:</label>
+        <input type="number" name="cantidad-vehiculos" id="cantidad-vehiculos">
+    </div>
+    <?php
+        if (!empty($_GET['cantidad-vehiculos'])){
+        for ($i = 1; $i <= $_GET['cantidad-vehiculos']; $i++) {
+    ?>
+        <label for="<?php echo "vehiculo".$i;?>"><?php echo "vehiculo".$i.":";?></label>
+        <select name="<?php echo "vehiculo".$i;?>" id="<?php echo "vehiculo".$i;?>">
+            <option value="" selected disabled>Seleccione un vehiculo:</option>
+            <?php
+                while ($V = mysqli_fetch_assoc($vehiculos)){
+            ?>
+                <option value="<?php echo $V['id'];?>"><?php echo $V['patente']." - ".$V['modelo'];?></option>
+            <?php
+                }
+            ?>
+        </select>
+    <?php
+        }
+        }      
+    ?>
 </form>
 <?php
     if (isset($_POST['agregar'])){
