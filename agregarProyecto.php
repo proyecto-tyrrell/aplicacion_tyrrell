@@ -12,10 +12,11 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
+//consulta a la base de datos
+$sql = "";
+
 //conectarse a la base de datos
 $conn = connect();
-
-
 
 ?>
 
@@ -39,7 +40,11 @@ $conn = connect();
         <li><a href="#">Recibo de sueldo</a></li>
     </ul>
 </nav>
-
+<form method="post">
+    <div>
+        <label for=""></label>
+    </div>
+</form>
 <script src="desplegable.js"></script>
 </body>
 </html>

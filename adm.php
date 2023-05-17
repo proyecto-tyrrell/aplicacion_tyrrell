@@ -43,6 +43,7 @@ $nombre_usuario = $_SESSION['nombre'];
     <a href="eventos.php" class="btn">Eventos</a>
     <a href="vehiculos.php" class="btn">Vehiculos</a>
     <a href="empleados.php" class="btn">Empleados</a>
+    <a href="proyectos.php" class="btn">Proyectos</a>
 </div>
 
 <script src="adm-scripts.js"></script>

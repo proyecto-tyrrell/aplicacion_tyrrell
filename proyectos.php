@@ -12,10 +12,13 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
+//consulta a la base de datos
+$sql = "SELECT * FROM proyectos WHERE 1";
+
 //conectarse a la base de datos
 $conn = connect();
 
-
+$result = mysqli_query($conn, $sql);
 
 ?>
 
@@ -39,7 +42,13 @@ $conn = connect();
         <li><a href="#">Recibo de sueldo</a></li>
     </ul>
 </nav>
-
+<ul>
+    <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+        <li>
+            <p><?php echo $row['nombre']; ?></p>
+        </li>
+    <?php } ?>
+</ul>
 <script src="desplegable.js"></script>
 </body>
 </html>
