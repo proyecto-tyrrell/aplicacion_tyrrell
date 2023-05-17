@@ -44,31 +44,25 @@ $nombre_usuario = $_SESSION['nombre'];
 
 <!-- Formulario para enviar problemas con los vehiculos -->
     <form action="enviar_correo.php" method="post">
+        <div>
             <label for="lista"><?php echo $nombre_usuario ?> Seleccione un vehiculo:</label>
-            <select name="lista" id="lista">
+            <select name="lista" id="lista" required>
                 <?php 
                     // Generar las opciones de la lista desplegable
                     while ($fila = mysqli_fetch_assoc($result)) {
                         echo "<option value='" . $fila['modelo'] . "'>" . $fila['patente'] . "</option>";
                     }
-
-                    // Liberar los resultados y cerrar la conexión
-                    mysqli_free_result($result);
-                    mysqli_close($conn);
                 ?>
    
             </select>
-
-            <br><br>
-
+        </div>
+        <div>
             <label for="problema">Describa su problema:</label>
             <textarea name="problema" id="problema" rows="4" cols="50"></textarea>
-
-            <br><br>
-            <div>
-                <button type="submit">Enviar</button>
-            </div>
-            
+        </div>
+        <div>
+            <button type="submit">Enviar</button>
+        </div>
     </form>
 
 
