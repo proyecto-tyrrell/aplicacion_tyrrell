@@ -27,7 +27,7 @@ $nombre_usuario = $_SESSION['nombre'];
     <a href="adm.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
 </header>
 <nav id="sidebar">
-    <button id="desplega"></button>
+    <button id="desplegar"></button>
     <ul>
         <li><a href="adm-asistencia.php">Asistencia</a></li>
         <li><a href="#">Recibo de sueldo</a></li>
