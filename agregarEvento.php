@@ -15,6 +15,9 @@ if (empty($_SESSION['token'])) {
 //conectarse a la base de datos
 $conn = connect();
 
+$sqlProyectos = "SELECT * FROM proyectos ORDER BY codigo";
+$proyectos = mysqli_query($conn, $sqlProyectos);
+
 ?>
 
 <!DOCTYPE html>
@@ -38,17 +41,20 @@ $conn = connect();
     </ul>
 </nav>
 <form method="post">
-    <div>
-        <label for="nombre">Nombre del proyecto:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-    </div>
-    <div>
-        <label for="codigo">Codigo del proyecto:</label>
-        <input type="text" id="codigo" name="codigo" placeholder="Codigo" required>
-    </div>
-    <div>
-        <button type="submit" class="btn" name="agregar">Agregar proyecto</button>
-    </div>
+   <div>
+        <label for="proyecto">Proyecto:</label>
+        <select name="proyecto" id="proyecto">
+            <option value="" selected disabled>Seleccione un proyecto</option>
+            <?php
+                while ($P = mysqli_fetch_asocc($proyectos)){
+            ?>
+                <option value="<?php echo $P['id']; ?>"><?php echo $P['codigo']; ?></option>
+            <?php
+            }
+            ?>
+        </select>
+   </div>
+
 </form>
 <?php
     if (isset($_POST['agregar'])){

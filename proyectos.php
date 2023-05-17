@@ -42,10 +42,13 @@ $result = mysqli_query($conn, $sql);
         <li><a href="#">Recibo de sueldo</a></li>
     </ul>
 </nav>
+<div>
+    <a href="agregarProyecto.php" class="btn">AgregarProyecto</a>
+</div>
 <ul>
     <?php while ($row = mysqli_fetch_assoc($result)){ ?>
         <li>
-            <p><?php echo $row['nombre']; ?></p>
+            <p><?php echo $row['codigo'].": ".$row['nombre']; ?></p>
         </li>
     <?php } ?>
 </ul>
