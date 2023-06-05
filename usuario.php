@@ -20,11 +20,11 @@ $nombre_usuario = $_SESSION['nombre'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tyrrell - usuario</title>
-    <link rel="stylesheet" href="estilos\usuarioStyle.css">
+    <link rel="stylesheet" href="estilos\Style.css">
 </head>
 <body>
 <header>
-    <a href="<?php if($_SESSION['rol'] == "adm"){echo "adm.php";}else{if($_SESSION['rol'] == "usr"){echo "usuario.php";}};?>" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+    <a href="usuario.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
 </header>
 <nav id="sidebar">
     <button id="desplegar"></button>
@@ -37,12 +37,13 @@ $nombre_usuario = $_SESSION['nombre'];
     <p>Bienvenido, <?php echo $nombre_usuario ?></p>
 </div>
 <div class="container-botones">
-    <a href="" class="btn">Ver Recibo de haberes</a>
+<a href="" class="btn">Ver Recibo de haberes</a>
     <a href="" class="btn">Novedades</a>
-    <a href="" class="btn">Solicitudes</a>
+    <a href="solicitud.php" class="btn">Solicitudes</a>
     <a href="eventos.php" class="btn">Eventos</a>
     <a href="vehiculos.php" class="btn">Vehiculos</a>
     <a href="empleados.php" class="btn">Empleados</a>
+    <a href="proyectos.php" class="btn">Proyectos</a>
 </div>
 
 <script src="desplegable.js"></script>
