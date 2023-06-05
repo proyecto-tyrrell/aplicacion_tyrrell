@@ -19,11 +19,7 @@ $conn = connect();
 $sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
 
 $result = mysqli_query($conn , $sql);
-
-// Obtener el nombre de usuario
-$nombre_usuario = $_SESSION['nombre'];
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +40,7 @@ $nombre_usuario = $_SESSION['nombre'];
 
 <!-- Formulario para enviar problemas con los vehiculos -->
     <form action="enviar_correo.php" method="post">
-            <label for="lista"><?php echo $nombre_usuario ?> Seleccione un vehiculo:</label>
+            <label for="lista">Seleccione un vehiculo:</label>
             <select name="lista" id="lista">
                 <?php 
                     // Generar las opciones de la lista desplegable
