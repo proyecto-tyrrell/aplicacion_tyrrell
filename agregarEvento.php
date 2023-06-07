@@ -102,25 +102,33 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
             <form method="post" id="form-agregar-evento-2">
                 <div>
                     <h3>Vehiculos:</h3>
-                    <?php
-                    while ($V = mysqli_fetch_assoc($vehiculos)){
-                        ?>
-                        <label for="<?php echo $V['patente']; ?>"><?php echo $V['modelo'].", ".$V['patente']; ?></label>
-                        <input type="checkbox" id="<?php echo $V['patente']; ?>" name="vehiculos[]" value="<?php echo $V['id']; ?>">
+                    <ul>
                         <?php
-                    }
-                    ?>
+                        while ($V = mysqli_fetch_assoc($vehiculos)){
+                            ?>
+                            <div>
+                                <label for="<?php echo $V['patente']; ?>"><?php echo $V['modelo'].", ".$V['patente']; ?></label>
+                                <input type="checkbox" id="<?php echo $V['patente']; ?>" name="vehiculos[]" value="<?php echo $V['id']; ?>">
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </ul>
                 </div>
                 <div>
                     <h3>Usuarios:</h3>
-                    <?php
-                    while ($U = mysqli_fetch_assoc($usuarios)){
-                        ?>
-                        <label for="<?php echo $U['dni']; ?>"><?php echo $U['nombreApellido']; ?></label>
-                        <input type="checkbox" id="<?php echo $U['dni']; ?>" name="usuarios[]" value="<?php echo $U['id']; ?>">
+                    <ul>
                         <?php
-                    }
-                    ?>
+                        while ($U = mysqli_fetch_assoc($usuarios)){
+                            ?>
+                            <div>
+                                <label for="<?php echo $U['dni']; ?>"><?php echo $U['nombreApellido']; ?></label>
+                                <input type="checkbox" id="<?php echo $U['dni']; ?>" name="usuarios[]" value="<?php echo $U['id']; ?>">
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </ul>
                 </div>
                 <div>
                     <input type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
