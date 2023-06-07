@@ -38,8 +38,7 @@ $result = mysqli_query($conn, $sql);
 <nav id="sidebar">
     <button id="desplegar"></button>
     <ul>
-        <li><a href="">Asistencia</a></li>
-        <li><a href="#">Recibo de sueldo</a></li>
+        <li><a href="index.php">Cerrar sesion</a></li>
     </ul>
 </nav>
 <ul id="usuarios">

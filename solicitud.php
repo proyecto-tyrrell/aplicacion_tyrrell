@@ -15,8 +15,6 @@ if (empty($_SESSION['token'])) {
 // Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
 $conn = connect();
 
-// Obtener el nombre de usuario
-$nombre_usuario = $_SESSION['nombre'];
 //QUERY
 $sql = "SELECT nombre from proyectos order by nombre ASC ;";
 
@@ -71,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tyrrell - solicitudes</title>
-    <link rel="stylesheet" href="estilos\solicitudes.css">
+    <link rel="stylesheet" href="estilos\Style.css">
 </head>
 
 <body>
@@ -85,11 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- FORMULARIO -->
 
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <label for="lista"><?php echo $nombre_usuario ?> Seleccione un proyecto si es lo que tiene:</label>
+    <label for="lista">Seleccione un proyecto si es lo que tiene:</label>
     <select name="lista" id="lista">
         <?php
         while ($fila = mysqli_fetch_assoc($result)) {
-            echo "<option value='" . $fila['nombre'] . "'>" . $fila['nombre'] . "</option>";
+        ?>
+            <option value="<?php echo $fila['nombre']; ?>"><?php echo $fila['nombre']; ?></option>";
+        <?php
         }
 
         mysqli_free_result($result);

@@ -36,8 +36,7 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
     <nav id="sidebar">
         <button id="desplegar"></button>
         <ul>
-            <li><a href="">Asistencia</a></li>
-            <li><a href="#">Recibo de sueldo</a></li>
+            <li><a href="index.php">Cerrar sesion</a></li>
         </ul>
     </nav>
     <form method="post" id="form-agregar-evento-1">
@@ -80,7 +79,7 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
             $lugar = $_POST['lugar'];
             
             //insertar
-            $sql = "INSERT INTO eventos (proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
+            $sql = "INSERT INTO eventos (usuario_id, proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$_SESSION['id']."', '".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
             mysqli_query($conn, $sql);
             $evento_id = mysqli_insert_id($conn);//obtener id del evento recien creado
 

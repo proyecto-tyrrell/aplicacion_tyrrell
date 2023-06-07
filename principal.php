@@ -29,12 +29,11 @@ $nombre_usuario = $_SESSION['nombre'];
 <nav id="sidebar">
     <button id="desplegar"></button>
     <ul>
-        <li><a href="">Asistencia</a></li>
-        <li><a href="">Recibo de sueldo</a></li>
+        <li><a href="index.php">Cerrar sesion</a></li>
     </ul>
 </nav>
 <div id='bienvenida'>
-    <p>Bienvenido, <?php echo $nombre_usuario ?></p>
+    <p>Bienvenido, <?php echo $nombre_usuario?></p>
 </div>
 <div class="container-botones">
     <a href="" class="btn">Ver Recibo de haberes</a>

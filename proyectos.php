@@ -38,12 +38,17 @@ $result = mysqli_query($conn, $sql);
 <nav id="sidebar">
     <button id="desplegar"></button>
     <ul>
-        <li><a href="">Asistencia</a></li>
-        <li><a href="#">Recibo de sueldo</a></li>
+        <li><a href="index.php">Cerrar sesion</a></li>
     </ul>
 </nav>
 <div>
-    <a href="agregarProyecto.php" class="btn">AgregarProyecto</a>
+<?php
+    if ($_SESSION['rol'] == 'adm'){
+?>
+        <a href="agregarProyecto.php" class="btn">AgregarProyecto</a>
+<?php
+    }
+?>
 </div>
 <ul>
     <?php while ($row = mysqli_fetch_assoc($result)){ ?>
