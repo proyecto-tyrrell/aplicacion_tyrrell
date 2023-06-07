@@ -29,16 +29,16 @@ $result = mysqli_query($conn, $sql);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tyrrell - usuario</title>
-    <link rel="stylesheet" href="estilos\usuarioStyle.css">
+    <link rel="stylesheet" href="estilos\Style.css">
 </head>
 <body>
 <header>
-    <a href="<?php if($_SESSION['rol'] == "adm"){echo "adm.php";}else{if($_SESSION['rol'] == "usr"){echo "usuario.php";}};?>" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+    <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
 </header>
 <nav id="sidebar">
     <button id="desplegar"></button>
     <ul>
-        <li><a href="adm-asistencia.php">Asistencia</a></li>
+        <li><a href="">Asistencia</a></li>
         <li><a href="#">Recibo de sueldo</a></li>
     </ul>
 </nav>

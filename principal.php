@@ -24,13 +24,13 @@ $nombre_usuario = $_SESSION['nombre'];
 </head>
 <body>
 <header>
-    <a href="adm.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+    <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
 </header>
 <nav id="sidebar">
     <button id="desplegar"></button>
     <ul>
-        <li><a href="adm-asistencia.php">Asistencia</a></li>
-        <li><a href="#">Recibo de sueldo</a></li>
+        <li><a href="">Asistencia</a></li>
+        <li><a href="">Recibo de sueldo</a></li>
     </ul>
 </nav>
 <div id='bienvenida'>
@@ -46,6 +46,6 @@ $nombre_usuario = $_SESSION['nombre'];
     <a href="proyectos.php" class="btn">Proyectos</a>
 </div>
 
-<script src="adm-scripts.js"></script>
+<script src="desplegable.js"></script>
 </body>
 </html>
