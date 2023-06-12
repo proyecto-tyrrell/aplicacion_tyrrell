@@ -99,6 +99,7 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
             ) ORDER BY nombreApellido";
             $usuarios = mysqli_query($conn, $sqlUsuarios);
             ?>
+            <script>document.getElementById("form-agregar-evento-1").style.display = "none";</script>
             <form method="post" id="form-agregar-evento-2">
                 <div>
                     <h3>Vehiculos:</h3>
@@ -164,6 +165,7 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
         <?php
     }
     ?>
+    <script>src="scripts.js"</script>
     <script src="desplegable.js"></script>
 </body>
 </html>

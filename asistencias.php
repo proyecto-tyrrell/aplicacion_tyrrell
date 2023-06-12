@@ -12,7 +12,7 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 $id = $_GET['id'];
-$sql = "SELECT * FROM usuarios u JOIN eventoUsuarios eu on u.id = eu.usuario_id JOIN asistencias a on a.evento_id = eu.evento_id WHERE eu.evento_id = '".$id."'";
+$sql = "SELECT u.id, u.dni, u.nombreApellido FROM usuarios u JOIN eventoUsuarios eu on u.id = eu.usuario_id WHERE eu.evento_id = '".$id."'";
 
 //conectarse a la base de datos
 $conn = connect();
@@ -43,13 +43,13 @@ $conn = connect();
     <form method="post">
         <ul>
             <?php
-                $ingresoSql = $sql." and a.ingreso is null";
-                $result = mysqli_fetch_assoc(mysqli_query($conn, $ingresoSql));
+                $ingresoSql = $sql." and eu.ingreso is null";
+                $result = mysqli_query($conn, $ingresoSql);
                 while ($row = mysqli_fetch_assoc($result)){ ?>
                 <li>
                     <div>
                         <label for="<?php echo $row['dni']; ?>"><?php echo $row['nombreApellido']; ?></label>
-                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuarios[]" value="<?php echo $row['id']; ?>">
+                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuariosIngreso[]" value="<?php echo $row['id']; ?>">
                     </div>
                 </li>
             <?php
@@ -57,7 +57,7 @@ $conn = connect();
             ?>
         </ul>
         <div>
-            <button type="submit" class="btn" name="confirmar-asistencia">Confirmar</button>
+            <button type="submit" class="btn" name="confirmar-ingreso">Confirmar</button>
         </div>
     </form>
 </div>
@@ -65,11 +65,14 @@ $conn = connect();
     <h3>Confirmar salida</h3>
     <form method="post">
         <ul>
-            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+            <?php 
+                $salidaSql = $sql." and eu.ingreso is not null and eu.salida is null";
+                $result = mysqli_query($conn, $salidaSql);
+                while ($row = mysqli_fetch_assoc($result)){ ?>
                 <li>
                     <div>
                         <label for="<?php echo $row['dni']; ?>"><?php echo $row['nombreApellido']; ?></label>
-                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuarios[]" value="<?php echo $row['id']; ?>">;
+                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuariosSalida[]" value="<?php echo $row['id'] ; ?>">
                     </div>
                 </li>
             <?php
@@ -77,7 +80,7 @@ $conn = connect();
             ?>
         </ul>
         <div>
-            <button type="submit" class="btn" name="confirmar-asistencia">Confirmar</button>
+            <button type="submit" class="btn" name="confirmar-salida">Confirmar</button>
         </div>
     </form>
 </div>
@@ -90,17 +93,26 @@ $conn = connect();
 <?php
     }
 
-if (isset($_POST['confirmar-asistencia'])){
-    $usuariosSeleccionados = isset($_POST['usuarios']) ? $_POST['usuarios'] : [];
+if (isset($_POST['confirmar-ingreso'])){
+    $usuariosSeleccionados = isset($_POST['usuariosIngreso']) ? $_POST['usuariosIngreso'] : [];
 
-    // Cargar usuarios presentes
+    // Cargar usuarios ingresados
     foreach ($usuariosSeleccionados as $usuario_id) {
-        $sqlAsignarUsuario = "INSERT INTO asistencias (evento_id, usuario_id) VALUES ('".$id."', '$usuario_id')";
-        $esta = "SELECT * FROM asistencias WHERE evento_id = '$id' AND usuario_id = '$usuario_id'";
-        $cargado = mysqli_fetch_assoc(mysqli_query($conn, $esta));
-        if ($cargado == 0){
-            mysqli_query($conn, $sqlAsignarUsuario);
-        }
+        $sqlCargarIngreso = "UPDATE eventoUsuarios set ingreso = '".date('Y-m-d H:i:s')."' WHERE evento_id = '".$id."' and usuario_id = '".$usuario_id."'";
+        mysqli_query($conn, $sqlCargarIngreso);
+        echo $sqlCargarIngreso;
+    }
+    header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&mensaje=true');
+    exit();
+}
+
+if (isset($_POST['confirmar-salida'])){
+    $usuariosSeleccionados = isset($_POST['usuariosSalida']) ? $_POST['usuariosSalida'] : [];
+
+    // Cargar usuarios ingresados
+    foreach ($usuariosSeleccionados as $usuario_id) {
+        $sqlCargarSalida = "UPDATE eventoUsuarios set salida = '".date('Y-m-d H:i:s')."' WHERE evento_id = '".$id."' and usuario_id = '".$usuario_id."'";
+        mysqli_query($conn, $sqlCargarSalida);
     }
     header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&mensaje=true');
     exit();
