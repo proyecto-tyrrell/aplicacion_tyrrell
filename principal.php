@@ -43,6 +43,7 @@ $nombre_usuario = $_SESSION['nombre'];
     <a href="vehiculos.php" class="btn">Vehiculos</a>
     <a href="empleados.php" class="btn">Empleados</a>
     <a href="proyectos.php" class="btn">Proyectos</a>
+    <a href="" class="btn">RRHH</a>
 </div>
 
 <script src="desplegable.js"></script>

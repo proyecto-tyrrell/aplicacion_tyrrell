@@ -12,14 +12,10 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 $id = $_GET['id'];
-$sql = "SELECT * FROM usuarios u JOIN eventoUsuarios eu on u.id = eu.usuario_id WHERE eu.evento_id = '".$id."'";
-
-$sqlSeleccionados = "SELECT * FROM asistencias WHERE evento_id = '".$id."' and usuario_id = ";
+$sql = "SELECT * FROM usuarios u JOIN eventoUsuarios eu on u.id = eu.usuario_id JOIN asistencias a on a.evento_id = eu.evento_id WHERE eu.evento_id = '".$id."'";
 
 //conectarse a la base de datos
 $conn = connect();
-
-$result = mysqli_query($conn, $sql);
 
 ?>
 
@@ -43,22 +39,17 @@ $result = mysqli_query($conn, $sql);
     </ul>
 </nav>
 <div>
-    <h3>Confirmar asistencia</h3>
+    <h3>Confirmar ingreso</h3>
     <form method="post">
         <ul>
-            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+            <?php
+                $ingresoSql = $sql." and a.ingreso is null";
+                $result = mysqli_fetch_assoc(mysqli_query($conn, $ingresoSql));
+                while ($row = mysqli_fetch_assoc($result)){ ?>
                 <li>
                     <div>
                         <label for="<?php echo $row['dni']; ?>"><?php echo $row['nombreApellido']; ?></label>
-                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuarios[]" value="<?php echo $row['id']; ?>" 
-                        <?php 
-                            $sqlAux = $sqlSeleccionados.$row['id'];
-                            $seleccionado = mysqli_fetch_assoc(mysqli_query($conn, $sqlAux));
-                            if ( $seleccionado > 0){
-                                echo "checked";
-                            }
-                        ?>
-                        >
+                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuarios[]" value="<?php echo $row['id']; ?>">
                     </div>
                 </li>
             <?php
@@ -69,15 +60,36 @@ $result = mysqli_query($conn, $sql);
             <button type="submit" class="btn" name="confirmar-asistencia">Confirmar</button>
         </div>
     </form>
-    <?php
-    if (!empty($_GET['mensaje'])){
-    ?>
-        <p>Se han confirmado las asistencias</p>
-    <?php
-    }
-    ?>
+</div>
+<div>
+    <h3>Confirmar salida</h3>
+    <form method="post">
+        <ul>
+            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+                <li>
+                    <div>
+                        <label for="<?php echo $row['dni']; ?>"><?php echo $row['nombreApellido']; ?></label>
+                        <input type="checkbox" id="<?php echo $row['dni']; ?>" name="usuarios[]" value="<?php echo $row['id']; ?>">;
+                    </div>
+                </li>
+            <?php
+                } 
+            ?>
+        </ul>
+        <div>
+            <button type="submit" class="btn" name="confirmar-asistencia">Confirmar</button>
+        </div>
+    </form>
 </div>
 <?php
+    if (!empty($_GET['mensaje'])){
+?>
+    <div>
+        <p>Se han confirmado los cambios</p>
+    </div>
+<?php
+    }
+
 if (isset($_POST['confirmar-asistencia'])){
     $usuariosSeleccionados = isset($_POST['usuarios']) ? $_POST['usuarios'] : [];
 

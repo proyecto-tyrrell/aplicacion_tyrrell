@@ -80,7 +80,13 @@ $result = mysqli_query($conn, $sql);
             <li>
                 <div>
                     <p><?php echo "Inicio: ".$row['fecha_inicio'].", fin: ".$row['fecha_fin'].", lugar: ".$row['lugar'] ?></p>
-                    <a href="asistencias.php?id=<?php echo $row['id']; ?>" class="btn" id="boton-asistencia">Asistencia</a>
+                    <?php
+                    if ($_SESSION['rol'] == 'adm'){
+                    ?>
+                        <a href="asistencias.php?id=<?php echo $row['id']; ?>" class="btn" id="boton-asistencia">Asistencia</a>
+                    <?php
+                    }
+                    ?>   
                 </div>
             </li>
         <?php
