@@ -1,5 +1,7 @@
 <?php
     
+    date_default_timezone_set('America/Argentina/Buenos_Aires');
+
     function connect() {
         $servername = "45.151.120.12";
         $username = "u602072991_root";
