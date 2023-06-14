@@ -53,7 +53,8 @@ $conn = connect();
                     </div>
                 </li>
             <?php
-                } 
+                }
+                echo date_default_timezone_get();
             ?>
         </ul>
         <div>
