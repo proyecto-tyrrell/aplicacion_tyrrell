@@ -1,16 +1,30 @@
 <?php
+// Breadcrumb Nav para Volver a la seccion anterior
+$seccionesVisitadas = array(
+    array(
+        "nombre" => "Inicio",
+        "url" => "principal.php"
+    ),
+    array(
+        "nombre" => "Solicitudes",
+        "url" => "solicitudes.php"
+    ),
+);
 
 include "ConexionDB.php";
 
-// Obtener los valores de inicio de sesión
+//obtener los valores de inicio de sesion
 session_start();
 
-// Verificar si el token de inicio de sesión está presente en la variable $_SESSION
+//verificar si el token de inicio de sesion esta presente en la variable $_session
 if (empty($_SESSION['token'])) {
-    // Si no está el token de inicio de sesión, redirigir al index
+    //si no esta el token de inicio de sesion redirigir al index
     header('Location: index.php');
     exit;
 }
+
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
 
 // Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
 $conn = connect();
@@ -35,11 +49,10 @@ function enviarCorreo()
         $asunto = "Solicitud de dinero";
 
         // Construir el mensaje
-       
 
         $mensaje = "Elemento seleccionado: " . $elemento . "\n";
         $mensaje .= "Solicitud: " . $solicitud ;
-        
+
         //Cabeceras del correo (correo del remitente)
         $cabeceras = "De: " . $nombre_usuario;
 
@@ -59,53 +72,42 @@ function enviarCorreo()
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     enviarCorreo();
 }
+include('templates/head.php')
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - solicitudes</title>
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-
-<body>
+<?php include('templates/header.php')?>
+<?php include('templates/nav.php')?>
 
 
-    <header class="logo.container">
-        <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
-    </header>
+<section class=" pt-5">
+    <div class="container">
+        <!-- FORMULARIO -->
 
+        <form class="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+            <div class="form-group col-md-6">
 
-    <!-- FORMULARIO -->
-
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    <label for="lista">Seleccione un proyecto si es lo que tiene:</label>
-    <select name="lista" id="lista">
-        <?php
+                <label class="mb-3" for="lista">Seleccione un proyecto si es lo que tiene:</label>
+                <select name="lista" id="lista" class="form-select fs-4">
+                    <?php
         while ($fila = mysqli_fetch_assoc($result)) {
         ?>
-            <option value="<?php echo $fila['nombre']; ?>"><?php echo $fila['nombre']; ?></option>";
-        <?php
+                    <option value="<?php echo $fila['nombre']; ?>"><?php echo $fila['nombre']; ?></option>";
+                    <?php
         }
 
         mysqli_free_result($result);
         mysqli_close($conn);
         ?>
-    </select>
-    <br><br>
+                </select>
+                <br><br>
 
-    <label for="solicitud">Solicito la cantidad de dinero para:</label>
-    <textarea name="mensaje" id="mensaje" rows="4" cols="50" required></textarea>
-    <br><br>
+                <label class="mb-3" for="solicitud">Solicito la cantidad de dinero para:</label>
+                <textarea class="form-control" name="mensaje" id="mensaje" rows="4" cols="50" required></textarea>
 
-    <div>
-        <button type="submit">Enviar</button>
+
+                <button type="submit" class="btn-general pt-2 pb-2 px-4 text-uppercase mt-3">Enviar</button>
+            </div>
+        </form>
     </div>
-</form>
-
-</body>
-</html>
+</section>
+<?php include('templates/footer.php')?>

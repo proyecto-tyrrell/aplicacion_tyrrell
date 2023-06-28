@@ -1,4 +1,21 @@
 <?php
+// Breadcrumb Nav para Volver a la seccion anterior
+
+$seccionesVisitadas = array(
+    array(
+        "nombre" => "Inicio",
+        "url" => "principal.php"
+    ),
+    array(
+        "nombre" => "Eventos",
+        "url" => "eventos.php"
+    ),
+    array(
+        "nombre" => "Nuevo evento",
+        "url" => "agregarEvento.php"
+    )
+);
+
 require "ConexionDB.php";
 
 // obtener los valores de inicio de sesion
@@ -10,6 +27,8 @@ if (empty($_SESSION['token'])) {
     header('Location: index.php');
     exit;
 }
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
 
 // conectarse a la base de datos
 $conn = connect();
@@ -18,66 +37,54 @@ $conn = connect();
 $sqlProyectos = "SELECT * FROM proyectos ORDER BY codigo";
 $proyectos = mysqli_query($conn, $sqlProyectos);
 
+include('templates/head.php')
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - usuario</title>
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-<body>
-    <header>
-        <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
-    </header>
-    <nav id="sidebar">
-        <button id="desplegar"></button>
-        <ul>
-            <li><a href="index.php">Cerrar sesion</a></li>
-        </ul>
-    </nav>
-    <form method="post" id="form-agregar-evento-1">
-        <div>
-            <label for="proyecto">Proyecto:</label>
-            <select name="proyecto" id="proyecto" required>
-                <option value="" selected disabled>Seleccione un proyecto</option>
-                <?php
+<?php include('templates/header.php')?>
+<?php include('templates/nav.php')?>
+
+
+<section class=" pt-5">
+    <div class="container">
+        <form class="formularios" method="post" id="form-agregar-evento-1">
+            <div class="m-2 mx-0">
+                <label for="proyecto">Proyecto:</label>
+                <select name="proyecto" id="proyecto" class="fs-5 form-select p-3 px-3" required>
+                    <option value="" selected disabled>Seleccione un proyecto</option>
+                    <?php
                 while ($P = mysqli_fetch_assoc($proyectos)){
                     ?>
                     <option value="<?php echo $P['id']; ?>"><?php echo $P['codigo']; ?></option>
                     <?php
                 }
                 ?>
-            </select>
-        </div>
-        <div>
-            <label for="fecha-inicio">Fecha y hora de inicio:</label>    
-            <input type="datetime-local" id="fecha-inicio" name="fecha-inicio" required>
-        </div>
-        <div>
-            <label for="fecha-fin">Fecha y hora de fin:</label>    
-            <input type="datetime-local" id="fecha-fin" name="fecha-fin" required>
-        </div>
-        <div>
-            <label for="lugar">Lugar:</label>
-            <input type="text" id="lugar" name="lugar" required>
-        </div>
-        <div>
-            <button type="submit" class="btn" name="siguiente">Siguiente</button>
-        </div>
-    </form>
+                </select>
+            </div>
+            <div class="m-4 mx-0">
+                <label for="fecha-inicio">Fecha y hora de inicio:</label>
+                <input class="form-control" type="datetime-local" id="fecha-inicio" name="fecha-inicio" required>
+            </div>
+            <div class="m-4 mx-0">
+                <label for="fecha-fin">Fecha y hora de fin:</label>
+                <input class="form-control" type="datetime-local" id="fecha-fin" name="fecha-fin" required>
+            </div>
+            <div>
+                <label for="lugar">Lugar:</label>
+                <input class="form-control" type="text" id="lugar" name="lugar" required>
+            </div>
+            <div class="m-4 mx-0">
+                <button type="submit" class="btn-general px-3" name="siguiente">Siguiente</button>
+            </div>
+        </form>
 
-    <?php
+        <?php
     if (isset($_POST['siguiente'])){
         if ((!empty($_POST['proyecto'])) && (!empty($_POST['fecha-inicio'])) && (!empty($_POST['fecha-fin'])) && (!empty($_POST['lugar']))){
             $proyecto_id = $_POST['proyecto'];
             $fecha_inicio = $_POST['fecha-inicio'];
             $fecha_fin = $_POST['fecha-fin'];
             $lugar = $_POST['lugar'];
-            
+
             //insertar
             $sql = "INSERT INTO eventos (usuario_id, proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$_SESSION['id']."', '".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
             mysqli_query($conn, $sql);
@@ -99,73 +106,79 @@ $proyectos = mysqli_query($conn, $sqlProyectos);
             ) ORDER BY nombreApellido";
             $usuarios = mysqli_query($conn, $sqlUsuarios);
             ?>
-            <script>document.getElementById("form-agregar-evento-1").style.display = "none";</script>
-            <form method="post" id="form-agregar-evento-2">
-                <div>
+        <script>
+        document.getElementById("form-agregar-evento-1").style.display = "none";
+        </script>
+
+        <form method="post" id="form-agregar-evento-2">
+            <div class="d-md-flex justify-content-start">
+
+                <div class="me-5">
                     <h3>Vehiculos:</h3>
-                    <ul>
+                    <select id="multiple-checkboxes" name="vehiculos[]" multiple>
+
                         <?php
                         while ($V = mysqli_fetch_assoc($vehiculos)){
-                            ?>
-                            <div>
-                                <label for="<?php echo $V['patente']; ?>"><?php echo $V['modelo'].", ".$V['patente']; ?></label>
-                                <input type="checkbox" id="<?php echo $V['patente']; ?>" name="vehiculos[]" value="<?php echo $V['id']; ?>">
-                            </div>
-                            <?php
+                        ?>
+                        <option id="<?php echo $V['patente']; ?>" value="<?php echo $V['id']; ?>"><?php echo $V['modelo'].", ".$V['patente']; ?></option>
+                        <?php
                         }
                         ?>
-                    </ul>
+                    </select>
                 </div>
                 <div>
                     <h3>Usuarios:</h3>
-                    <ul>
+                    <select id="multiple-checkboxes2" name="usuarios[]" multiple>
                         <?php
                         while ($U = mysqli_fetch_assoc($usuarios)){
-                            ?>
-                            <div>
-                                <label for="<?php echo $U['dni']; ?>"><?php echo $U['nombreApellido']; ?></label>
-                                <input type="checkbox" id="<?php echo $U['dni']; ?>" name="usuarios[]" value="<?php echo $U['id']; ?>">
-                            </div>
-                            <?php
+                        ?>
+                            <option id="<?php echo $U['dni']; ?>" value="<?php echo $U['id']; ?>"><?php echo $U['nombreApellido']; ?></option>
+                        <?php
                         }
                         ?>
-                    </ul>
+                    </select>
                 </div>
-                <div>
-                    <input type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
-                    <button type="submit" class="btn" name="cargar">Cargar</button>
-                </div>            
-            </form>
-            <?php
+            </div>
+            <div class="m-5 mx-0">
+                <input class="form-control" type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
+                <button type="submit" class="btn-general px-4" name="cargar">Cargar</button>
+            </div>
+
+        </form>
+        <?php
         }else{
             ?>
-            <p>Debe ingresar todos los campos</p>
-            <?php
+        <p class="alert alert-danger  text-center">Debe ingresar todos los campos</p>
+        <?php
         }
     }
 
     if (isset($_POST['cargar'])){
         $evento_id = $_POST['evento_id'];
-        $vehiculosSeleccionados = isset($_POST['vehiculos']) ? $_POST['vehiculos'] : [];
-        $usuariosSeleccionados = isset($_POST['usuarios']) ? $_POST['usuarios'] : [];
+        $vehiculosSeleccionados = $_POST['vehiculos'];
+        $usuariosSeleccionados = $_POST['usuarios'];
 
         // Asignar vehículos al evento
         foreach ($vehiculosSeleccionados as $vehiculo_id) {
+           // echo $vehiculo_id;
             $sqlAsignarVehiculo = "INSERT INTO eventoVehiculos (evento_id, vehiculo_id) VALUES ('$evento_id', '$vehiculo_id')";
             mysqli_query($conn, $sqlAsignarVehiculo);
         }
 
         // Asignar usuarios al evento
         foreach ($usuariosSeleccionados as $usuario_id) {
+            //echo $usuario_id;
             $sqlAsignarUsuario = "INSERT INTO eventoUsuarios (evento_id, usuario_id) VALUES ('$evento_id', '$usuario_id')";
             mysqli_query($conn, $sqlAsignarUsuario);
         }
         ?>
-        <p>Se ha cargado con éxito</p>
+        <p class="alert alert-success text-center" >Se ha cargado con éxito</p>
         <?php
     }
     ?>
-    <script>src="scripts.js"</script>
-    <script src="desplegable.js"></script>
-</body>
-</html>
+        <script>
+        src = "scripts.js"
+        </script>
+    </div>
+</section>
+<?php include('templates/footer.php')?>

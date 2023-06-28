@@ -27,7 +27,7 @@ if (!empty($_POST['lista']) && !empty($_POST['problema'])) {
     $problema = $_POST['problema'];
 
     // Dirección de correo a la que se enviará el mensaje
-    $destinatario = "administracion@tyrrell.com.ar";
+    $destinatario = "hnetto@tyrrell.com.ar>";
 
     // Asunto del correo
     $asunto = "Problemas con vehiculo";

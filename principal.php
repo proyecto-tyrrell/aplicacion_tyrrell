@@ -1,4 +1,5 @@
 <?php
+
 //obtener los valores de inicio de sesion
 session_start();
 
@@ -11,41 +12,25 @@ if (empty($_SESSION['token'])) {
 
 // Obtener el nombre de usuario
 $nombre_usuario = $_SESSION['nombre'];
+include('templates/head.php')
 ?>
+<?php include('templates/header.php')?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - adm</title>
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-<body>
-<header>
-    <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
-</header>
-<nav id="sidebar">
-    <button id="desplegar"></button>
-    <ul>
-        <li><a href="index.php">Cerrar sesion</a></li>
-    </ul>
-</nav>
-<div id='bienvenida'>
-    <p>Bienvenido, <?php echo $nombre_usuario?></p>
-</div>
-<div class="container-botones">
-    <a href="" class="btn">Ver Recibo de haberes</a>
-    <a href="" class="btn">Novedades</a>
-    <a href="solicitud.php" class="btn">Solicitudes</a>
-    <a href="eventos.php" class="btn">Eventos</a>
-    <a href="vehiculos.php" class="btn">Vehiculos</a>
-    <a href="empleados.php" class="btn">Empleados</a>
-    <a href="proyectos.php" class="btn">Proyectos</a>
-    <a href="" class="btn">RRHH</a>
-</div>
 
-<script src="desplegable.js"></script>
-</body>
-</html>
+<section class="pt-md-4">
+<div class="container">
+    <div class="container-botones mt-md-5 mt-2">
+        <a href="recibos.php" class=""> <button class="btn-principal"><i class="bi bi-receipt-cutoff"> <br></i>Recibo de haberes</button> </a>
+        <a href="" class=""> <button class="btn-principal"><i class="bi bi-app-indicator"></i> <br> Novedades</button></a>
+        <a href="solicitud.php" class=""> <button class="btn-principal"><i class="bi bi-menu-up"></i> <br> Solicitudes</button></a>
+        <a href="eventos.php" class=""> <button class="btn-principal"><i class="bi bi-calendar2-event"></i>  <br>  Eventos</button></a>
+        <a href="vehiculos.php" class=""> <button class="btn-principal"><i class="bi bi-car-front"></i>  <br> Vehiculos</button></a>
+        <a href="empleados.php" class=""> <button class="btn-principal"><i class="bi bi-people-fill"></i> <br> Empleados</button></a>
+        <a href="proyectos.php" class="tn"> <button class="btn-principal"><i class="bi bi-journal-bookmark-fill"></i> <br> Proyectos</button></a>
+        <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i>  <br> RRHH</button></a>
+        <a href="miUsuario.php" class=""><button class="btn-principal"><i class="bi bi-shield-lock"></i>  <br> Usuario</button></a>
+    </div>
+
+</div>
+</section>
+<?php include('templates/footer.php')?>

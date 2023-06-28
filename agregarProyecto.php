@@ -1,9 +1,24 @@
 <?php
+// Breadcrumb Nav para Volver a la seccion anterior
 
-require"ConexionDB.php";
+$seccionesVisitadas = array(
+    array(
+        "nombre" => "Inicio",
+        "url" => "principal.php"
+    ),
+    array(
+        "nombre" => "Proyectos",
+        "url" => "proyectos.php"
+    ),
+   
+);
+
+require "ConexionDB.php";
 
 //obtener los valores de inicio de sesion
 session_start();
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
 
 //verificar si el token de inicio de sesion esta presente en la variable $_session
 if (empty($_SESSION['token'])) {
@@ -15,41 +30,29 @@ if (empty($_SESSION['token'])) {
 //conectarse a la base de datos
 $conn = connect();
 
+include('templates/head.php')
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - usuario</title>
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-<body>
-<header>
-    <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
-</header>
-<nav id="sidebar">
-    <button id="desplegar"></button>
-    <ul>
-        <li><a href="index.php">Cerrar sesion</a></li>
-    </ul>
-</nav>
-<form method="post">
-    <div>
-        <label for="nombre">Nombre del proyecto:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-    </div>
-    <div>
-        <label for="codigo">Codigo del proyecto:</label>
-        <input type="text" id="codigo" name="codigo" placeholder="Codigo" required>
-    </div>
-    <div>
-        <button type="submit" class="btn" name="agregar">Agregar proyecto</button>
-    </div>
-</form>
-<?php
+<?php include('templates/header.php')?>
+<?php include('templates/nav.php')?>
+
+<section class=" pt-5">
+    <div class="container">
+
+        <form method="post">
+            <div class="col-md-6">
+                <label for="nombre">Nombre del proyecto:</label>
+                <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+            </div>
+            <div class="col-md-6">
+                <label for="codigo">Codigo del proyecto:</label>
+                <input class="form-control" type="text" id="codigo" name="codigo" placeholder="Codigo" required>
+            </div>
+            <div class="col-md-12 mt-5">
+                <button type="submit" class="btn-general" name="agregar">Agregar proyecto</button>
+            </div>
+       
+        <?php
     if (isset($_POST['agregar'])){
         if(!empty($_POST['nombre']) and !empty($_POST['codigo'])){
             $nombre = $_POST['nombre'];
@@ -59,16 +62,23 @@ $conn = connect();
             try{
                 mysqli_query($conn, $sql)
             ?>
-                <p>Se ha agregado correctamente</p>
-            <?php
+        <p class="alert alert-success text-center ">
+            Se ha agregado correctamente
+        </p>
+        <?php
             }catch(EXCEPTION $e){
             ?>
-                <p>Ha ocurrido un error, por favor intentelo mas tarde</p>
-            <?php
+        <p class="alert alert-danger  text-center">
+            Ha ocurrido un error, por favor intentelo mas tarde
+        </p>
+         </form>
+        <?php
             }
         }
     }
+    
 ?>
-<script src="desplegable.js"></script>
-</body>
-</html>
+ </form>
+    </div>
+</section>
+<?php include('templates/footer.php')?>

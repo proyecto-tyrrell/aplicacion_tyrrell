@@ -1,6 +1,19 @@
 <?php
+// Breadcrumb Nav para Volver a la seccion anterior
 
-require"ConexionDB.php";
+$seccionesVisitadas = array(
+    array(
+        "nombre" => "Inicio",
+        "url" => "principal.php"
+    ),
+    array(
+        "nombre" => "Eventos",
+        "url" => "eventos.php"
+    ),
+   
+);
+
+require "ConexionDB.php";
 
 //obtener los valores de inicio de sesion
 session_start();
@@ -12,7 +25,10 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
-//conectarse a la base de datos
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
+
+// Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
 $conn = connect();
 
 if (isset($_POST['filtrar'])){
@@ -28,78 +44,83 @@ if (isset($_POST['filtrar'])){
 
 $sql = "SELECT * from eventos WHERE ".$filtro." ORDER BY fecha_inicio";
 $result = mysqli_query($conn, $sql);
+
+
+include('templates/head.php')
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - usuario</title>
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-<body>
-<header>
-    <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
-</header>
-<nav id="sidebar">
-    <button id="desplegar"></button>
-    <ul>
-        <li><a href="index.php">Cerrar sesion</a></li>
-    </ul>
-</nav>
-<div id="botones-eventos">
-    <form method="post">
-        <div>
-            <label for="fecha-hora">Fecha y hora:</label>
-            <input type="date" id="fecha-hora" name="fecha-hora" required>
-        </div>
-        <div>
-            <button type="submit" class="btn" name="filtrar">Filtrar</button>
-        </div>
-    </form>
-<?php
-    if ($_SESSION['rol'] == 'adm'){
-?>      
-        <a href="agregarEvento.php" class="btn">Crear nuevo evento</a>
-<?php
+<?php include('templates/header.php')?>
+<?php include('templates/nav.php')?>
+
+
+<section class=" pt-5">
+    <div class="container">
+
+                <form class="d-inline"  method="post" style="vertical-align: center" action="">
+                    <label class=" d-inline" for="fecha-hora">Fecha:</label>
+                    <input class="form-date d-inline ms-2 pt-1 pb-1" type="date" id="fecha-hora"
+                        name="fecha-hora" required >
+
+                    <button type="submit" class="btn-general ms-2 px-3  d-inline" name="filtrar">
+                        <i class="bi bi-funnel fs-6 me-1"></i> Filtrar
+                    </button>
+                </form>
+            <?php if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')){?>
+             <div class=" d-md-inline float-md-end mt-5 mt-md-0 text-center">
+                <a href="agregarEvento.php?nombre=Eventos%20»%20Nuevo">
+                    <button class="btn-general">
+                        <i class="bi bi-plus-circle-fill fs-7 me-1"></i> Nuevo evento
+                    </button>
+                </a>
+            </div>
+        <?php
     }
 ?>
-</div>
-<?php
+        <div class="eventos mt-5 pt-2 text-left">
+            <?php
     if (mysqli_num_rows($result) > 0){
         if ($darMensaje == true){
 ?>
-            <h3 class="mensaje">Eventos del dia de hoy:</h3>
-<?php
+            <h4 class="alert alert-info p-3 text-center">Eventos del día </h4>
+            <?php
         }
 ?>
-    <ul id="lista-eventos">
-        <?php while ($row = mysqli_fetch_assoc($result)){ ?>
-            <li>
-                <div>
-                    <p><?php echo "Inicio: ".$row['fecha_inicio'].", fin: ".$row['fecha_fin'].", lugar: ".$row['lugar'] ?></p>
-                    <?php
-                    if ($_SESSION['rol'] == 'adm'){
+             <table class="table table-striped">
+            <thead>
+            <tr>
+            <th scope="col">Inicio</th>
+            <th scope="col">Fin</th>
+            <th scope="col">Lugar</th>
+            </tr>
+            </thead>
+                <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+             <tr>
+                 <td> <?php echo  $row['fecha_inicio'] ?> </td>
+                 <td> <?php echo  $row['fecha_fin'] ?> </td>
+                 <td> <?php echo  $row['lugar']  ?></td>
+                
+                        <?php
+                    if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')){
                     ?>
-                        <a href="asistencias.php?id=<?php echo $row['id']; ?>" class="btn" id="boton-asistencia">Asistencia</a>
-                    <?php
+                      <td>  <a href="asistencias.php?id=<?php echo $row['id']; ?>" 
+                            id="boton-asistencia"> <button class=" btn-general mt-1"> Asistencia </button> </a></td>
+                </tr>
+                        <?php
                     }
-                    ?>   
-                </div>
-            </li>
-        <?php
-        } 
-        ?>
-    </ul>
-<?php
+                    ?>
+                  
+                <?php
+        }
+        ?>   </table>
+                
+            <?php
     }else{
 ?>
-    <h3 class="mensaje">Sin eventos cargados</h3>
-<?php
+            <h4 class="alert alert-secondary text-center">Sin eventos cargados</h4>
+            <?php
     }
 ?>
-<script src="desplegable.js"></script>
-</body>
-</html>
+        </div>
+    </div>
+</section>
+<?php include('templates/footer.php')?>

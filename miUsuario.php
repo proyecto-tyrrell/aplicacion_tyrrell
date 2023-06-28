@@ -6,8 +6,8 @@ $seccionesVisitadas = array(
         "url" => "principal.php"
     ),
     array(
-        "nombre" => "Empleados",
-        "url" => "empleados.php"
+        "nombre" => "Usuario",
+        "url" => "miUsuario.php"
     ),
 );
 
@@ -32,39 +32,21 @@ $conn = connect();
 //consulta a la base de datos
 $sql = "SELECT nombreApellido, dni , celular FROM `usuarios` ORDER BY nombreApellido ASC;";
 
-//conectarse a la base de datos
-$conn = connect();
 
 $result = mysqli_query($conn, $sql);
 
 
-include('templates/head.php')
+include('templates/head.php');
+include('templates/header.php');
+include('templates/nav.php');
 ?>
-
-<?php include('templates/header.php')?>
-<?php include('templates/nav.php')?>
 
 
 <section class=" pt-5">
     <div class="container">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-            <th scope=" col">Nombre</th>
-            <th scope="col">DNI</th>
-            <th scope="col">Celular</th>
-            
-            </tr>
-            </thead>
-            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
-            <tr>
-                <td><?php echo $row['nombreApellido']?></td>
-                <td> <?php echo $row['dni'] ?></td>
-                <td> <?php echo $row['celular'] ?></td>
-                
-            </tr>
-            <?php } ?>
-        </table>
+        <h2>Gomez Garese Lorenzo</h2>
+        <p>lologg03@gmail.com</p>
+        
     </div>
 </section>
 <?php include('templates/footer.php')?>

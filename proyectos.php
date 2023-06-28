@@ -1,6 +1,19 @@
 <?php
+// Breadcrumb Nav para Volver a la seccion anterior
 
-require"ConexionDB.php";
+$seccionesVisitadas = array(
+    array(
+        "nombre" => "Inicio",
+        "url" => "principal.php"
+    ),
+    array(
+        "nombre" => "Proyectos",
+        "url" => "proyectos.php"
+    ),
+   
+);
+
+require "ConexionDB.php";
 
 //obtener los valores de inicio de sesion
 session_start();
@@ -12,6 +25,9 @@ if (empty($_SESSION['token'])) {
     exit;
 }
 
+// Obtener el nombre de usuario
+$nombre_usuario = $_SESSION['nombre'];
+
 //consulta a la base de datos
 $sql = "SELECT * FROM proyectos WHERE 1";
 
@@ -19,44 +35,43 @@ $sql = "SELECT * FROM proyectos WHERE 1";
 $conn = connect();
 
 $result = mysqli_query($conn, $sql);
-
+include('templates/head.php')
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - usuario</title>
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-<body>
-<header>
-    <a href="principal.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
-</header>
-<nav id="sidebar">
-    <button id="desplegar"></button>
-    <ul>
-        <li><a href="index.php">Cerrar sesion</a></li>
-    </ul>
-</nav>
-<div>
-<?php
+<?php include('templates/header.php')?>
+<?php include('templates/nav.php')?>
+
+<section class=" pt-5">
+    <div class="container">
+        <div class="text-end">
+            <?php
     if ($_SESSION['rol'] == 'adm'){
 ?>
-        <a href="agregarProyecto.php" class="btn">AgregarProyecto</a>
-<?php
+            <a href="agregarProyecto.php" class="btn-general">
+                <i class="bi bi-plus-circle-fill fs-7 me-1"></i> Nuevo proyecto
+            </a>
+            <?php
     }
 ?>
-</div>
-<ul>
-    <?php while ($row = mysqli_fetch_assoc($result)){ ?>
-        <li>
-            <p><?php echo $row['codigo'].": ".$row['nombre']; ?></p>
-        </li>
-    <?php } ?>
-</ul>
-<script src="desplegable.js"></script>
-</body>
-</html>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope=" col">Código</th>
+                    <th scope="col">Nombre</th>
+                </tr>
+            </thead>
+
+            <?php while ($row = mysqli_fetch_assoc($result)){ ?>
+            <tr>
+                <td> <?php echo $row['codigo']?> </td>
+                <td> <?php echo $row['nombre'] ?></td>
+
+
+                <?php } ?>
+            </tr>
+        </table>
+
+    </div>
+</section>
+<?php include('templates/footer.php')?>

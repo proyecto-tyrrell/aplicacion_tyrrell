@@ -4,29 +4,22 @@
     if (!empty($_SESSION['token'])){
         unset($_SESSION['token']);
     }
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tyrrell - iniciar sesion</title>
-    <link rel="icon" href="\imagenes\tyrrell.ico" type="image/x-icon">
-    <link rel="stylesheet" href="estilos\Style.css">
-</head>
-<body>
+
+include('templates/head.php')?>
 <header>
-    <a href="index.php" id="logo"><img src="imagenes\tyrrell.jpeg" alt="logo"></a>
+    <div class="container text-center">
+    <a href="index.php" ><img src="img\tyrrell.jpeg" alt="logo"></a>
+</div>
 </header>
-<form action="LogIn.php" method="post" id="login-form">
+<div class="container">
+<form action="login.php" method="post" id="login-form" class=" text-center">
     <div>
-        <label for="user">Usuario:</label>
-        <input type="text" id="usuario" name="usuario" placeholder="Usuario" required/>
+        <label for="user"><i class="bi bi-person-fill me-5 px-0 mx-0"></i></label>
+        <input class="" type="text" id="usuario" name="usuario" placeholder="Usuario" required/>
     </div>
-    <div>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" required/>
+    <div >
+        <label for="password"><i class="bi bi-key-fill"></i> </label>
+        <input class="" type="password" id="password" name="contraseña" placeholder="Contraseña" required/>
     </div>
     <div>
         <?php
@@ -38,9 +31,8 @@
             }
         ?>
     </div>
-    <div>
-        <button type="submit">Login</button>
+    <div class="text-center">
+        <button type="submit">ENTRAR</button>
     </div>
-</form>
-</body>
-</html>
+</form></div>
+<?php include('templates/footer.php')?>
