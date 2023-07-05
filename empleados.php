@@ -55,7 +55,7 @@ include('templates/head.php')
 
 <section class=" pt-5">
     <div class="container">
-        <table class="table table-striped">
+        <table id="miTabla" class="table table-striped">
             <thead>
             <tr>
             <th scope=" col">Nombre</th>
@@ -70,7 +70,6 @@ include('templates/head.php')
                 <td><?php echo $row['nombreApellido']?></td>
                 <td> <?php echo $row['dni'] ?></td>
                 <td> <?php echo $row['celular'] ?></td>
-                <td class="<?php echo ($ocupado) ? "ocupado" : "disponible"; ?>">
                 <?php
                     $id = $row['id']; // Obtener el ID de la fila actual
                     $ocupado = false; // Variable para almacenar si el ID está disponible
@@ -82,7 +81,9 @@ include('templates/head.php')
                             break;
                         }
                     }
-
+                ?>
+                <td class="<?php echo ($ocupado) ? "ocupado" : "disponible"; ?>">
+                <?php
                     // Mostrar "Disponible" o "Ocupado" según el valor de $ocupado
                     if ($ocupado) {
                         echo "Ocupado";

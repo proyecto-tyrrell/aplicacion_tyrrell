@@ -12,7 +12,7 @@ include('templates/head.php')?>
 </div>
 </header>
 <div class="container">
-<form action="login.php" method="post" id="login-form" class=" text-center">
+<form action="LogIn.php" method="post" id="login-form" class=" text-center">
     <div>
         <label for="user"><i class="bi bi-person-fill me-5 px-0 mx-0"></i></label>
         <input class="" type="text" id="usuario" name="usuario" placeholder="Usuario" required/>

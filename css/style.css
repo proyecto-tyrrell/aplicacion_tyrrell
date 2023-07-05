@@ -366,12 +366,14 @@ line-height: 70px;}
   height: 30px;
 }
 
-.ocupado {
+#miTabla .ocupado {
+  color: white;
   background-color: red;
   border-radius: 10px;
 }
 
-.disponible {
+#miTabla .disponible {
+  color: white;
   background-color: green;
   border-radius: 10px;
 }
