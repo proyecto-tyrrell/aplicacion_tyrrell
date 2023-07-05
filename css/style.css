@@ -366,6 +366,16 @@ line-height: 70px;}
   height: 30px;
 }
 
+.ocupado {
+  background-color: red;
+  border-radius: 10px;
+}
+
+.disponible {
+  background-color: green;
+  border-radius: 10px;
+}
+
 /* @media print {
   .print-section {
       display: block !important;
@@ -386,9 +396,6 @@ line-height: 70px;}
 
 /* RESPONSIVE
  Estilos para pantallas pequeñas */
-
-
-
 
  @media (max-width: 768px) {
   #logo{

@@ -20,17 +20,18 @@ include('templates/head.php')
 <section class="pt-md-4">
 <div class="container">
     <div class="container-botones mt-md-5 mt-2">
-        <a href="recibos.php" class=""> <button class="btn-principal"><i class="bi bi-receipt-cutoff"> <br></i>Recibo de haberes</button> </a>
-        <a href="" class=""> <button class="btn-principal"><i class="bi bi-app-indicator"></i> <br> Novedades</button></a>
-        <a href="solicitud.php" class=""> <button class="btn-principal"><i class="bi bi-menu-up"></i> <br> Solicitudes</button></a>
-        <a href="eventos.php" class=""> <button class="btn-principal"><i class="bi bi-calendar2-event"></i>  <br>  Eventos</button></a>
-        <a href="vehiculos.php" class=""> <button class="btn-principal"><i class="bi bi-car-front"></i>  <br> Vehiculos</button></a>
-        <a href="empleados.php" class=""> <button class="btn-principal"><i class="bi bi-people-fill"></i> <br> Empleados</button></a>
-        <a href="proyectos.php" class="tn"> <button class="btn-principal"><i class="bi bi-journal-bookmark-fill"></i> <br> Proyectos</button></a>
-        <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i>  <br> RRHH</button></a>
-        <a href="miUsuario.php" class=""><button class="btn-principal"><i class="bi bi-shield-lock"></i>  <br> Usuario</button></a>
-        <a href="" class=""> <button class="btn-principal"><i class="bi bi-cup-straw"></i> <br> Almuerzo</button></a>
-        <a href="" class=""> <button class="btn-principal"><i class="bi bi-info-circle"></i> <br> Informacion util</button></a>
+        <a href=""><button class="btn-principal"><i class="bi bi-calendar2-event"></i><br>Mis eventos</button></a>
+        <a href="recibos.php" class=""> <button class="btn-principal"><i class="bi bi-receipt-cutoff"></i><br>Recibo de haberes</button> </a>
+        <a href="" class=""> <button class="btn-principal"><i class="bi bi-app-indicator"></i><br> Novedades</button></a>
+        <a href="solicitud.php" class=""> <button class="btn-principal"><i class="bi bi-menu-up"></i><br> Solicitudes</button></a>
+        <a href="eventos.php" class=""> <button class="btn-principal"><i class="bi bi-calendar2-event"></i><br>  Eventos</button></a>
+        <a href="vehiculos.php" class=""> <button class="btn-principal"><i class="bi bi-car-front"></i><br> Vehiculos</button></a>
+        <a href="empleados.php" class=""> <button class="btn-principal"><i class="bi bi-people-fill"></i><br> Empleados</button></a>
+        <a href="proyectos.php" class="tn"> <button class="btn-principal"><i class="bi bi-journal-bookmark-fill"></i><br> Proyectos</button></a>
+        <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
+        <a href="miUsuario.php" class=""><button class="btn-principal"><i class="bi bi-shield-lock"></i><br> Usuario</button></a>
+        <a href="" class=""> <button class="btn-principal"><i class="bi bi-cup-straw"></i><br> Almuerzo</button></a>
+        <a href="" class=""> <button class="btn-principal"><i class="bi bi-info-circle"></i><br> Informacion util</button></a>
         
     </div>
 
