@@ -153,17 +153,21 @@ include('templates/head.php')
         }
     }
 
-    if (isset($_POST['cargar'])){
+    if ((isset($_POST['cargar'])) && (!empty($_POST['usuarios']))){
         $evento_id = $_POST['evento_id'];
-        $vehiculosSeleccionados = $_POST['vehiculos'];
-        $usuariosSeleccionados = $_POST['usuarios'];
 
-        // Asignar vehículos al evento
-        foreach ($vehiculosSeleccionados as $vehiculo_id) {
-           // echo $vehiculo_id;
-            $sqlAsignarVehiculo = "INSERT INTO eventoVehiculos (evento_id, vehiculo_id) VALUES ('$evento_id', '$vehiculo_id')";
-            mysqli_query($conn, $sqlAsignarVehiculo);
-        }
+        if (!empty($_POST['vehiculos'])){
+            $vehiculosSeleccionados = $_POST['vehiculos'];
+
+            // Asignar vehículos al evento
+            foreach ($vehiculosSeleccionados as $vehiculo_id) {
+            // echo $vehiculo_id;
+                $sqlAsignarVehiculo = "INSERT INTO eventoVehiculos (evento_id, vehiculo_id) VALUES ('$evento_id', '$vehiculo_id')";
+                mysqli_query($conn, $sqlAsignarVehiculo);
+            }
+        }            
+
+        $usuariosSeleccionados = $_POST['usuarios'];
 
         // Asignar usuarios al evento
         foreach ($usuariosSeleccionados as $usuario_id) {
@@ -174,11 +178,9 @@ include('templates/head.php')
         ?>
         <p class="alert alert-success text-center" >Se ha cargado con éxito</p>
         <?php
-    }
+    }      
     ?>
-        <script>
-        src = "scripts.js"
-        </script>
     </div>
 </section>
+<script src="mensajeError.js"></script>
 <?php include('templates/footer.php')?>

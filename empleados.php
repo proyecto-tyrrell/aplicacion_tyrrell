@@ -34,7 +34,7 @@ $sql = "SELECT id, nombreApellido, dni , celular FROM usuarios ORDER BY nombreAp
 
 //seleccionar los id de los usuarios que este cargado en un evento que esta sucediendo ahora (usuarios ocupados)
 $sqlEstado = "SELECT usuario_id FROM eventoUsuarios WHERE evento_id IN (
-        SELECT id FROM eventos WHERE fecha_inicio <= '".date('Y-m-d H:i:s')."' AND fecha_fin > '".date('Y-m-d H:i:s')."')";
+        SELECT id FROM eventos WHERE fecha_inicio <= '".date('Y-m-d H:i:s')."' AND fecha_fin > '".date('Y-m-d H:i:s')."') AND ingreso is not NULL  and salida is NULL";
 
 //conectarse a la base de datos
 $conn = connect();
@@ -82,7 +82,10 @@ include('templates/head.php')
                         }
                     }
                 ?>
+                
+                
                 <td class="<?php echo ($ocupado) ? "ocupado" : "disponible"; ?>">
+                    <p class=p-3 disponible>
                 <?php
                     // Mostrar "Disponible" o "Ocupado" según el valor de $ocupado
                     if ($ocupado) {
@@ -91,7 +94,9 @@ include('templates/head.php')
                         echo "Disponible";
                     }
                 ?>
+                </p>
                 </td>
+                
             </tr>
             </tbody>
             <?php } ?>
