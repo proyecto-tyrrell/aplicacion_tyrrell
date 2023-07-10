@@ -84,8 +84,13 @@ include('templates/head.php')
             <h4 class="alert alert-info p-3 text-center">Eventos del día </h4>
             <?php
         }
+        if ((isset($_GET['msjEliminado'])) && ($_GET['msjEliminado'])){
 ?>
-             <table class="table table-striped">
+            <h5>Evento eliminado correctamente</h5>
+<?php
+        }
+?>
+        <table class="table table-striped">
             <thead>
             <tr>
             <th scope="col">Inicio</th>
@@ -98,20 +103,22 @@ include('templates/head.php')
                  <td> <?php echo  $row['fecha_inicio'] ?> </td>
                  <td> <?php echo  $row['fecha_fin'] ?> </td>
                  <td> <?php echo  $row['lugar']  ?></td>
-                
                         <?php
                     if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')){
                     ?>
-                      <td>  <a href="asistencias.php?id=<?php echo $row['id']; ?>" 
-                            id="boton-asistencia"> <button class=" btn-general mt-1"> Asistencia </button> </a></td>
-                </tr>
+                        <td><a href="asistencias.php?id=<?php echo $row['id']; ?>"id="boton-asistencia"> 
+                            <button class=" btn-general mt-1"> Asistencia </button>
+                        </a></td>
+                        <td><a href=""><button class=" btn-general mt-1">Editar <i class="bi bi-pencil"></i></button></a></td>
+                        <td><button class=" btn-general mt-1" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)" >Eliminar <i class="bi bi-trash"></i></button></td>
                         <?php
                     }
                     ?>
+                </tr>
                   
                 <?php
         }
-        ?>   </table>
+        ?></table>
                 
             <?php
     }else{
@@ -122,5 +129,14 @@ include('templates/head.php')
 ?>
         </div>
     </div>
+    <div id="overlay" class="no-mostrar">
+        <form action="eliminarEvento.php" method="post" id="confirm-box" class="no-mostrar">
+            <p>¿Seguro desea eliminar este evento?</p>
+            <input id="id-evento" name="id-evento" value="" type="hidden">
+            <button onclick="cancelar()">Cancelar</button>
+            <button type="submit">Confirmar</button>
+        </form>
+    </div>
 </section>
+<script src="js\eliminarEvento.js"></script>
 <?php include('templates/footer.php')?>

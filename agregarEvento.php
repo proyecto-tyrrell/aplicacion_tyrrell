@@ -85,11 +85,6 @@ include('templates/head.php')
             $fecha_fin = $_POST['fecha-fin'];
             $lugar = $_POST['lugar'];
 
-            //insertar
-            $sql = "INSERT INTO eventos (usuario_id, proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$_SESSION['id']."', '".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
-            mysqli_query($conn, $sql);
-            $evento_id = mysqli_insert_id($conn);//obtener id del evento recien creado
-
             // vehiculos
             $sqlVehiculos = "SELECT * FROM vehiculos WHERE id NOT IN (
                 SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (
@@ -140,7 +135,10 @@ include('templates/head.php')
                 </div>
             </div>
             <div class="m-5 mx-0">
-                <input class="form-control" type="hidden" name="evento_id" value="<?php echo $evento_id; ?>">
+                <input name="proyecto" value="<?php echo $proyecto_id;?>" type="hidden">
+                <input name="fecha-inicio" value="<?php echo $fecha_inicio; ?>" type="hidden">
+                <input name="fecha-fin" value="<?php echo $fecha_fin; ?>" type="hidden">
+                <input name="lugar" value="<?php echo $lugar; ?>" type="hidden">
                 <button type="submit" class="btn-general px-4" name="cargar">Cargar</button>
             </div>
 
@@ -154,7 +152,14 @@ include('templates/head.php')
     }
 
     if ((isset($_POST['cargar'])) && (!empty($_POST['usuarios']))){
-        $evento_id = $_POST['evento_id'];
+        $proyecto_id = $_POST['proyecto'];
+        $fecha_inicio = $_POST['fecha-inicio'];
+        $fecha_fin = $_POST['fecha-fin'];
+        $lugar = $_POST['lugar'];
+        //crear evento
+        $sql = "INSERT INTO eventos (usuario_id, proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$_SESSION['id']."', '".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
+        mysqli_query($conn, $sql);
+        $evento_id = mysqli_insert_id($conn);//obtener id del evento recien creado
 
         if (!empty($_POST['vehiculos'])){
             $vehiculosSeleccionados = $_POST['vehiculos'];
@@ -182,5 +187,5 @@ include('templates/head.php')
     ?>
     </div>
 </section>
-<script src="mensajeError.js"></script>
+<script src="js\mensajeError.js"></script>
 <?php include('templates/footer.php')?>

@@ -25,15 +25,15 @@ if (empty($_SESSION['token'])) {
 
 // Obtener el nombre de usuario
 $nombre_usuario = $_SESSION['nombre'];
+$id = $_SESSION['id'];
 
 // Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
 $conn = connect();
 
 //consulta a la base de datos
-$sql = "SELECT nombreApellido, dni , celular FROM `usuarios` ORDER BY nombreApellido ASC;";
-
-
+$sql = "SELECT * FROM usuarios WHERE id = '".$id."'";
 $result = mysqli_query($conn, $sql);
+$usuario = mysqli_fetch_assoc($result);
 
 
 include('templates/head.php');
@@ -44,9 +44,10 @@ include('templates/nav.php');
 
 <section class=" pt-5">
     <div class="container">
-        <h2>Gomez Garese Lorenzo</h2>
-        <p>lologg03@gmail.com</p>
-        
+        <h2><?php echo $nombre_usuario; ?></h2>
+        <p><?php echo $usuario['dni']; ?></p>
+        <p><?php echo $usuario['mail']; ?></p>
+        <p><?php echo $usuario['celular']; ?></p>       
     </div>
 </section>
 <?php include('templates/footer.php')?>
