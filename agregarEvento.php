@@ -97,7 +97,7 @@ include('templates/head.php')
             $sqlUsuarios = "SELECT * FROM usuarios WHERE id NOT IN (
                 SELECT usuario_id FROM eventoUsuarios WHERE evento_id IN (
                     SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
-                )
+                    AND salida is null)
             ) ORDER BY nombreApellido";
             $usuarios = mysqli_query($conn, $sqlUsuarios);
             ?>

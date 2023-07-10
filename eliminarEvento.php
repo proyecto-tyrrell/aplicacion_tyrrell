@@ -13,5 +13,5 @@
     mysqli_query($conn, $eliminarUsuarios);
     mysqli_query($conn, $eliminarEvento);
 
-    header("Location: eventos.php?msjEliminado=true");
+    header("Location: eventos.php");
 ?>

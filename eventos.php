@@ -45,7 +45,6 @@ if (isset($_POST['filtrar'])){
 $sql = "SELECT * from eventos WHERE ".$filtro." ORDER BY fecha_inicio";
 $result = mysqli_query($conn, $sql);
 
-
 include('templates/head.php')
 ?>
 
@@ -83,11 +82,6 @@ include('templates/head.php')
 ?>
             <h4 class="alert alert-info p-3 text-center">Eventos del día </h4>
             <?php
-        }
-        if ((isset($_GET['msjEliminado'])) && ($_GET['msjEliminado'])){
-?>
-            <h5>Evento eliminado correctamente</h5>
-<?php
         }
 ?>
         <table class="table table-striped">
