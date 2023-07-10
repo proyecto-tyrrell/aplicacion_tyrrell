@@ -103,7 +103,7 @@ include('templates/head.php')
                         <td><a href="asistencias.php?id=<?php echo $row['id']; ?>"id="boton-asistencia"> 
                             <button class=" btn-general mt-1"> Asistencia </button>
                         </a></td>
-                        <td><a href=""><button class=" btn-general mt-1">Editar <i class="bi bi-pencil"></i></button></a></td>
+                        <td><a href="editarEvento.php?id=<?php echo $row['id']; ?>"><button class=" btn-general mt-1">Editar <i class="bi bi-pencil"></i></button></a></td>
                         <td><button class=" btn-general mt-1" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)" >Eliminar <i class="bi bi-trash"></i></button></td>
                         <?php
                     }
@@ -127,8 +127,8 @@ include('templates/head.php')
         <form action="eliminarEvento.php" method="post" id="confirm-box" class="no-mostrar">
             <p>¿Seguro desea eliminar este evento?</p>
             <input id="id-evento" name="id-evento" value="" type="hidden">
-            <button onclick="cancelar()">Cancelar</button>
-            <button type="submit">Confirmar</button>
+            <button class=" btn-general mt-1" type="button" onclick="cancelar()">Cancelar</button>
+            <button class=" btn-general mt-1" type="submit">Confirmar</button>
         </form>
     </div>
 </section>

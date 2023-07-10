@@ -1,4 +1,4 @@
-let mostrarRecuadro = false;
+var mostrarRecuadro = false;
 
 function mostrarRecuadroEliminar(id){
     mostrarRecuadro = true;

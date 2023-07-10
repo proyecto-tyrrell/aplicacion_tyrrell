@@ -31,8 +31,7 @@ include('templates/head.php')
         <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
         <a href="miUsuario.php" class=""><button class="btn-principal"><i class="bi bi-shield-lock"></i><br> Usuario</button></a>
         <a href="" class=""> <button class="btn-principal"><i class="bi bi-cup-straw"></i><br> Almuerzo</button></a>
-        <a href="" class=""> <button class="btn-principal"><i class="bi bi-info-circle"></i><br> Informacion util</button></a>
-        
+        <a href="" class=""> <button class="btn-principal"><i class="bi bi-bar-chart-line"></i><br>Estadísticas</button></a>
     </div>
 
 </div>
