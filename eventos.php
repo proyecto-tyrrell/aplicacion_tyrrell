@@ -127,8 +127,8 @@ include('templates/head.php')
         <form action="eliminarEvento.php" method="post" id="confirm-box" class="no-mostrar">
             <p>¿Seguro desea eliminar este evento?</p>
             <input id="id-evento" name="id-evento" value="" type="hidden">
-            <button class=" btn-general mt-1" type="button" onclick="cancelar()">Cancelar</button>
-            <button class=" btn-general mt-1" type="submit">Confirmar</button>
+            <button class="btn-general mt-1" type="button" onclick="cancelar()">Cancelar</button>
+            <button class="btn-general mt-1" type="submit">Confirmar</button>
         </form>
     </div>
 </section>
