@@ -7,8 +7,8 @@ $seccionesVisitadas = array(
         "url" => "principal.php"
     ),
     array(
-        "nombre" => "Eventos",
-        "url" => "eventos.php"
+        "nombre" => "Mis eventos",
+        "url" => "misEventos.php"
     ),
    
 );
@@ -28,6 +28,9 @@ if (empty($_SESSION['token'])) {
 // Obtener el nombre de usuario
 $nombre_usuario = $_SESSION['nombre'];
 
+//obtener el id
+$id = $_SESSION['id'];
+
 // Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
 $conn = connect();
 
@@ -42,8 +45,11 @@ if (isset($_POST['filtrar'])){
     $darMensaje = true;
 }
 
-$sql = "SELECT * from eventos WHERE ".$filtro." ORDER BY fecha_inicio";
+$sql = "SELECT * from eventos WHERE ".$filtro." AND id in (SELECT evento_id FROM eventoUsuarios where usuario_id = '".$id."') ORDER BY fecha_inicio";
 $result = mysqli_query($conn, $sql);
+
+$actualizarNotificacion="UPDATE notificaciones SET visto = true WHERE usuario_id = '".$id."'";
+mysqli_query($conn, $actualizarNotificacion);
 
 include('templates/head.php')
 ?>
@@ -64,17 +70,6 @@ include('templates/head.php')
                         <i class="bi bi-funnel fs-6 me-1"></i> Filtrar
                     </button>
                 </form>
-            <?php if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')){?>
-             <div class=" d-md-inline float-md-end mt-5 mt-md-0 text-center">
-                <a href="agregarEvento.php?nombre=Eventos%20»%20Nuevo">
-                    <button class="btn-general">
-                        <i class="bi bi-plus-circle-fill fs-7 me-1"></i> Nuevo evento
-                    </button>
-                </a>
-            </div>
-        <?php
-    }
-?>
         <div class="eventos mt-5 pt-2 text-left">
             <?php
     if (mysqli_num_rows($result) > 0){
@@ -97,12 +92,7 @@ include('templates/head.php')
                  <td> <?php echo  $row['fecha_inicio'] ?> </td>
                  <td> <?php echo  $row['fecha_fin'] ?> </td>
                  <td> <?php echo  $row['lugar']  ?></td>
-                <td><a href="asistencias.php?id=<?php echo $row['id']; ?>"id="boton-asistencia"> 
-                    <button class=" btn-general mt-1">Asistencia</button>
-                </a></td>
-                <td><a href="editarEvento.php?id=<?php echo $row['id']; ?>"><button class=" btn-general mt-1">Editar <i class="bi bi-pencil"></i></button></a></td>
-                <td><button class=" btn-general mt-1" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)" >Eliminar <i class="bi bi-trash"></i></button></td>
-                </tr>
+            </tr>
                   
                 <?php } ?>
         </table>
@@ -115,14 +105,6 @@ include('templates/head.php')
     }
 ?>
         </div>
-    </div>
-    <div id="overlay" class="no-mostrar">
-        <form action="eliminarEvento.php" method="post" id="confirm-box" class="no-mostrar">
-            <p>¿Seguro desea eliminar este evento?</p>
-            <input id="id-evento" name="id-evento" value="" type="hidden">
-            <button class="btn-general mt-1" type="button" onclick="cancelar()">Cancelar</button>
-            <button class="btn-general mt-1" type="submit">Confirmar</button>
-        </form>
     </div>
 </section>
 <script src="js\eliminarEvento.js"></script>

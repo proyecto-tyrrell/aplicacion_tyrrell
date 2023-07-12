@@ -179,6 +179,8 @@ include('templates/head.php')
             //echo $usuario_id;
             $sqlAsignarUsuario = "INSERT INTO eventoUsuarios (evento_id, usuario_id) VALUES ('$evento_id', '$usuario_id')";
             mysqli_query($conn, $sqlAsignarUsuario);
+            $sqlNotificacion = "INSERT INTO notificaciones (usuario_id, evento_id, visto) VALUES ('$usuario_id', '$evento_id', false)";
+            mysqli_query($conn, $sqlNotificacion);
         }
         ?>
         <p class="alert alert-success text-center" >Se ha cargado con éxito</p>

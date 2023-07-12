@@ -36,6 +36,15 @@ $result = mysqli_query($conn, $sql);
 $usuario = mysqli_fetch_assoc($result);
 
 
+if (isset($_POST['confirmar'])){
+    if ($_POST['pass1'] == $_POST['pass2']){
+        $sqlCambioPass = "UPDATE usuarios set pass = '".$_POST['pass1']."' WHERE id = '".$id."'";
+        mysqli_query($conn, $sqlCambioPass);
+        header('Location: index.php');
+    }
+}
+
+
 include('templates/head.php');
 include('templates/header.php');
 include('templates/nav.php');
@@ -68,14 +77,5 @@ include('templates/nav.php');
         </form>
     </div>
 </section>
-<?php
-    if (isset($_POST['confirmar'])){
-        if ($_POST['pass1'] == $_POST['pass2']){
-        ?>
-            <p class="alert alert-success text-center" >Se ha cargado con éxito</p>
-        <?php
-        }
-    }
-?>
 <script src="js\cambiarPass.js"></script>
 <?php include('templates/footer.php')?>

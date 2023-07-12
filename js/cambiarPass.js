@@ -37,7 +37,7 @@ function actualizarForm(){
 
     if (mostrar){
         datos.style.display="none";
-        form.style.display="flex";
+        form.style.display="block";
     } else{
         datos.style.display="block";
         form.style.display="none";
