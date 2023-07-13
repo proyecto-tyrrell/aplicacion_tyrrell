@@ -30,7 +30,7 @@ $nombre_usuario = $_SESSION['nombre'];
 $conn = connect();
 
 //QUERY
-$sql = "SELECT nombre from proyectos order by nombre ASC ;";
+$sql = "SELECT nombre from proyectos WHERE activo = true order by nombre ASC ;";
 
 $result = mysqli_query($conn, $sql);
 

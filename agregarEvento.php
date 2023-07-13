@@ -34,7 +34,7 @@ $nombre_usuario = $_SESSION['nombre'];
 $conn = connect();
 
 // proyectos
-$sqlProyectos = "SELECT * FROM proyectos ORDER BY codigo";
+$sqlProyectos = "SELECT * FROM proyectos WHERE activo = true ORDER BY codigo";
 $proyectos = mysqli_query($conn, $sqlProyectos);
 
 include('templates/head.php')

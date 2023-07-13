@@ -29,12 +29,28 @@ if (empty($_SESSION['token'])) {
 $nombre_usuario = $_SESSION['nombre'];
 
 //consulta a la base de datos
-$sql = "SELECT * FROM proyectos WHERE 1";
+$sql = "SELECT * FROM proyectos";
 
 //conectarse a la base de datos
 $conn = connect();
 
 $result = mysqli_query($conn, $sql);
+
+if(isset($_POST['desactivar'])){
+    $desactivar = "UPDATE proyectos set activo = false WHERE id = '".$_POST['desactivar']."'";
+    mysqli_query($conn, $desactivar);
+    header('Location: proyectos.php');
+    exit;
+}
+
+
+if(isset($_POST['activar'])){
+    $desactivar = "UPDATE proyectos set activo = true WHERE id = '".$_POST['activar']."'";
+    mysqli_query($conn, $desactivar);
+    header('Location: proyectos.php');
+    exit;
+}
+
 include('templates/head.php')
 ?>
 
@@ -59,19 +75,35 @@ include('templates/head.php')
                 <tr>
                     <th scope=" col">Código</th>
                     <th scope="col">Nombre</th>
+                    <th scope="col">Estado</th>
                 </tr>
             </thead>
 
             <?php while ($row = mysqli_fetch_assoc($result)){ ?>
             <tr>
-                <td> <?php echo $row['codigo']?> </td>
-                <td> <?php echo $row['nombre'] ?></td>
-
-
-                <?php } ?>
+                <td> <?php echo $row['codigo'];?> </td>
+                <td> <?php echo $row['nombre'];?></td>
+                <td> <?php if ($row['activo']) { ?>
+                    <td>Activo</td>
+                    <?php if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')) { ?>
+                        <td><form method="post">
+                            <button name="desactivar" class="btn-general" type="submit" value="<?php echo $row['id']; ?>">Presione para desactivar</button>
+                        </form></td>
+                    <?php 
+                    }
+                } else { ?>
+                    <td>Inactivo</td>
+                    <?php if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')) { ?>
+                        <td><form method="post">
+                            <button name="activar" class="btn-general" type="submit" value="<?php echo $row['id']; ?>">Presione para activar</button>
+                        </form></td>
+                    <?php 
+                    }
+                }    
+                ?></td>
             </tr>
+            <?php } ?>
         </table>
-
     </div>
 </section>
 <?php include('templates/footer.php')?>

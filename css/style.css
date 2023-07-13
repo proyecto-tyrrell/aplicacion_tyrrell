@@ -405,6 +405,30 @@ line-height: 70px;}
   text-align: center;
 }
 
+.boton-oscilante {
+  animation: oscilar 1.5s ease-in-out infinite;
+}
+
+@keyframes oscilar {
+  0% {
+    background-color:  rgb(0, 170, 247); /* Color inicial */
+  }
+  50% {
+    background-color: rgb(0, 16, 247); /* Color intermedio */
+  }
+  100% {
+    background-color: rgb(0, 170, 247); /* Color final */
+  }
+}
+
+#eliminarUsuarios{
+  margin-top: 3%;
+}
+
+#agregar{
+  margin-top: 5%;
+}
+
 /* RESPONSIVE
  Estilos para pantallas pequeñas */
 
