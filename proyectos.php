@@ -29,7 +29,7 @@ if (empty($_SESSION['token'])) {
 $nombre_usuario = $_SESSION['nombre'];
 
 //consulta a la base de datos
-$sql = "SELECT * FROM proyectos";
+$sql = "SELECT * FROM proyectos order by codigo";
 
 //conectarse a la base de datos
 $conn = connect();
@@ -73,7 +73,7 @@ include('templates/head.php')
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope=" col">Código</th>
+                    <th scope="col">Código</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Estado</th>
                 </tr>

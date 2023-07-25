@@ -60,16 +60,13 @@ include('templates/head.php')
 
 <section class=" pt-5">
     <div class="container">
-
-                <form class="d-inline"  method="post" style="vertical-align: center" action="">
-                    <label class=" d-inline" for="fecha-hora">Fecha:</label>
-                    <input class="form-date d-inline ms-2 pt-1 pb-1" type="date" id="fecha-hora"
-                        name="fecha-hora" required >
-
-                    <button type="submit" class="btn-general ms-2 px-3  d-inline" name="filtrar">
-                        <i class="bi bi-funnel fs-6 me-1"></i> Filtrar
-                    </button>
-                </form>
+         <form class="d-inline"  method="post" style="vertical-align: center" action="">
+            <label class=" d-inline" for="fecha-hora">Fecha:</label>
+            <input class="form-date d-inline ms-2 pt-1 pb-1" type="date" id="fecha-hora" name="fecha-hora" required >
+            <button type="submit" class="btn-general ms-2 px-3  d-inline" name="filtrar">
+                <i class="bi bi-funnel fs-6 me-1"></i> Filtrar
+            </button>
+        </form>
         <div class="eventos mt-5 pt-2 text-left">
             <?php
     if (mysqli_num_rows($result) > 0){
