@@ -36,7 +36,11 @@ $conn = connect();
 $sql = "SELECT modelo, patente from vehiculos order by modelo ASC ;";
 
 $result = mysqli_query($conn , $sql);
-include('templates/head.php')
+include('templates/head.php');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    enviarCorreo();
+}
 ?>
 
 <?php include('templates/header.php')?>
@@ -47,10 +51,10 @@ include('templates/head.php')
         <!-- Seleccion de auto -->
 
         <!-- Formulario para enviar problemas con los vehiculos -->
-        <form action="enviar_correo.php" method="post">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
              <div class="col-md-6 me-md-2">
                 <label for="lista">Seleccione un vehiculo:</label>
-                <select class="form-select fs-4" name="lista" id="lista">
+                <select class="form-select fs-4" name="lista" id="lista" required>
                     <?php 
                     // Generar las opciones de la lista desplegable
                     while ($fila = mysqli_fetch_assoc($result)) {
@@ -66,14 +70,66 @@ include('templates/head.php')
             </div>
             <div class="col-md-6  mt-4">
                 <label for="problema">Describa su problema:</label>
-                <textarea class="form-control" name="problema" id="problema" rows="4" cols="50"></textarea>
+                <textarea class="form-control" name="mensaje" id="problema" rows="4" cols="50" required></textarea>
             </div>
             <div class="col-md-12 mt-4">
                 <button class="btn-general" type="submit">Enviar</button>
             </div>
 
         </form>
+    </div>
+    <div class="col-md-12 mt-4">
+        <?php
+            if( isset($_GET['correo'])){
+                if ($_GET['correo'] === true){
+        ?>
+                    <p class="alert alert-success text-center">Correo enviado correctamente</p>
+        <?php
+                }else{
+        ?>
+                    <p class="alert alert-danger  text-center">Error al enviar el correo</p>
+        <?php
+                }
+            }
 
+        function enviarCorreo()
+        {
+            // Verificar si se recibieron los datos del formulario
+            if (!empty($_POST['lista']) && !empty($_POST['mensaje'] )) {
+                // Obtener los valores del formulario
+                $elemento = $_POST['lista'];
+                $solicitud = $_POST['mensaje'];
+
+                // Dirección de correo a la que se enviará el mensaje
+                $destinatario = "lologg03@gmail.com";
+
+                // Asunto del correo
+                $asunto = "Problemas con vehiculo";
+
+                // Construir el mensaje
+
+                $mensaje = "Elemento seleccionado: " . $elemento . "\n";
+                $mensaje .= "Solicitud: " . $solicitud ;
+
+                //Cabeceras del correo (correo del remitente)
+                $cabeceras = "De: " . $nombre_usuario;
+
+
+
+                // Enviar el correo electrónico
+                if (mail($destinatario, $asunto, $mensaje, $cabeceras)) {
+                    'Location: '.$_SERVER['PHP_SELF'].'?mensaje=true';
+                } else {
+                    'Location: '.$_SERVER['PHP_SELF'].'?enviado=false';
+                }
+            } else {
+            ?>
+                <p class="alert alert-danger  text-center">Error: no se recibieron los datos del formulario.</p>
+            <?php
+            }
+        }
+
+        ?>
     </div>
 </section>
 <?php include('templates/footer.php')?>
