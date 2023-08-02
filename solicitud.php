@@ -34,9 +34,45 @@ $sql = "SELECT nombre from proyectos WHERE activo = true order by nombre ASC ;";
 
 $result = mysqli_query($conn, $sql);
 
+function enviarCorreo()
+{
+    // Verificar si se recibieron los datos del formulario
+    if (!empty($_POST['lista']) && !empty($_POST['mensaje'] )) {
+        // Obtener los valores del formulario
+        $elemento = $_POST['lista'];
+        $solicitud = $_POST['mensaje'];
+
+        // Dirección de correo a la que se enviará el mensaje
+        $destinatario = "administracion@tyrrell.com.ar";
+
+        // Asunto del correo
+        $asunto = "Solicitud de dinero";
+
+        // Construir el mensaje
+
+        $mensaje = "Elemento seleccionado: " . $elemento . "\n";
+        $mensaje .= "Solicitud: " . $solicitud ;
+
+        //Cabeceras del correo (correo del remitente)
+        $cabeceras = "De: " . $nombre_usuario;
+
+        $resultado = mail($destinatario, $asunto, $mensaje, $cabeceras);
+
+        // Enviar el correo electrónico
+        if ($resultado) {
+            header('Location: '.$_SERVER['PHP_SELF'].'?enviado=true');
+            exit;
+        } else {
+            header('Location: '.$_SERVER['PHP_SELF'].'?enviado=false');
+            exit;
+        }
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     enviarCorreo();
 }
+
 include('templates/head.php')
 ?>
 
@@ -52,7 +88,7 @@ include('templates/head.php')
             <div class="form-group col-md-6">
 
                 <label class="mb-3" for="lista">Seleccione un proyecto si es lo que tiene:</label>
-                <select name="lista" id="lista" class="form-select fs-4">
+                <select name="lista" id="lista" class="form-select fs-4" required>
                     <?php
         while ($fila = mysqli_fetch_assoc($result)) {
         ?>
@@ -77,7 +113,7 @@ include('templates/head.php')
     <div class="col-md-12 mt-4">
         <?php
             if( isset($_GET['enviado'])){
-                if ($_GET['enviado'] === true){
+                if ($_GET['enviado'] == true){
         ?>
                     <p class="alert alert-success text-center">Correo enviado correctamente</p>
         <?php
@@ -87,43 +123,6 @@ include('templates/head.php')
         <?php
                 }
             }
-
-        function enviarCorreo()
-        {
-            // Verificar si se recibieron los datos del formulario
-            if (!empty($_POST['lista']) && !empty($_POST['mensaje'] )) {
-                // Obtener los valores del formulario
-                $elemento = $_POST['lista'];
-                $solicitud = $_POST['mensaje'];
-        
-                // Dirección de correo a la que se enviará el mensaje
-                $destinatario = "administracion@tyrrell.com.ar";
-        
-                // Asunto del correo
-                $asunto = "Solicitud de dinero";
-        
-                // Construir el mensaje
-        
-                $mensaje = "Elemento seleccionado: " . $elemento . "\n";
-                $mensaje .= "Solicitud: " . $solicitud ;
-        
-                //Cabeceras del correo (correo del remitente)
-                $cabeceras = "De: " . $nombre_usuario;
-        
-        
-        
-                // Enviar el correo electrónico
-                if (mail($destinatario, $asunto, $mensaje, $cabeceras)) {
-                    'Location: '.$_SERVER['PHP_SELF'].'?mensaje=true';
-                } else {
-                    'Location: '.$_SERVER['PHP_SELF'].'?enviado=false';
-                }
-            } else {
-            ?>
-                <p class="alert alert-danger  text-center">Error: no se recibieron los datos del formulario.</p>
-            <?php
-            }
-        }    
         ?>
     </div>
 </section>
