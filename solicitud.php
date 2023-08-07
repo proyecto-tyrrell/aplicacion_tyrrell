@@ -51,10 +51,12 @@ function enviarCorreo()
         // Construir el mensaje
 
         $mensaje = "Elemento seleccionado: " . $elemento . "\n";
-        $mensaje .= "Solicitud: " . $solicitud ;
+        $mensaje .= "Solicitud: " . $solicitud . "\n";
+        $mensje .= "usuario: " .$nombre_usuario;
 
         //Cabeceras del correo (correo del remitente)
-        $cabeceras = "De: " . $nombre_usuario;
+        $remitente = "tyrrell@aplicacion.desarrollo-tyrrell.com";
+        $cabeceras = "From: " . $remitente . "\r\n";
 
         $resultado = mail($destinatario, $asunto, $mensaje, $cabeceras);
 
