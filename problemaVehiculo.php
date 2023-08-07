@@ -42,21 +42,28 @@ function enviarCorreo()
 {
     // Verificar si se recibieron los datos del formulario
     if (!empty($_POST['lista']) && !empty($_POST['mensaje'] )) {
+        $conn = connect();
+
         // Obtener los valores del formulario
         $elemento = $_POST['lista'];
-        $solicitud = $_POST['mensaje'];
+        $problema = $_POST['mensaje'];
+        
+        //obtener datos del vehiculo;
+        $vehiculoSql = "SELECT * from vehiculos WHERE patente = '". $elemento ."'";
+        $vehiculoResult = mysqli_query($conn, $vehiculoSql);
+        $vehiculo = mysqli_fetch_assoc($vehiculoResult);
 
         // Dirección de correo a la que se enviará el mensaje
         $destinatario = "hnetto@tyrrell.com.ar";
 
-        // Asunto del correo
-        $asunto = "Problemas con vehiculo";
+        //asunto
+        $asunto = "Problema con vehículo";
 
         // Construir el mensaje
 
-        $mensaje = "Elemento seleccionado: " . $elemento . "\n";
-        $mensaje .= "Solicitud: " . $solicitud . "\n" ;
-        $mensje .= "usuario: " .$nombre_usuario;
+        $mensaje = "Elemento seleccionado: " . $vehiculo['modelo'] . ", " .$elemento. ". \n";
+        $mensaje .= "Problema: " . $problema . ". \n" ;
+        $mensaje .= "usuario: " . $_SESSION['nombre'] . ".";
 
         //Cabeceras del correo (correo del remitente)
         $remitente = "tyrrell@aplicacion.desarrollo-tyrrell.com";
@@ -66,12 +73,15 @@ function enviarCorreo()
 
         // Enviar el correo electrónico
         if ($resultado) {
+            $insertarSql = "INSERT INTO mensajeVehiculos (vehiculo_id, usuario_id, mensaje, fecha) VALUES ('".$vehiculo['id']."', '".$_SESSION['id']."', '".$problema."' , '".date('Y-m-d H:i:s')."')";
+            mysqli_query($conn, $insertarSql); 
             header('Location: '.$_SERVER['PHP_SELF'].'?enviado=true');
             exit;
         } else {
             header('Location: '.$_SERVER['PHP_SELF'].'?enviado=false');
             exit;
         }
+        
     }
 }
 
@@ -95,13 +105,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <select class="form-select fs-4" name="lista" id="lista" required>
                     <?php 
                     // Generar las opciones de la lista desplegable
-                    while ($fila = mysqli_fetch_assoc($result)) {
-                        echo "<option value='" . $fila['modelo'] . "'>" . $fila['patente'] . "</option>";
-                    }
-
-                    // Liberar los resultados y cerrar la conexión
-                    mysqli_free_result($result);
-                    mysqli_close($conn);
+                    while ($fila = mysqli_fetch_assoc($result)) { ?>
+                        <option value="<?php echo $fila['patente'] ; ?>"><?php echo $fila['patente'] ; ?></option>;
+                    <?php }
                 ?>
 
                 </select>
