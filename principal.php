@@ -41,7 +41,7 @@ if ($notificacion['cantidad'] > 0){
 
 <section class="pt-md-4">
 <div class="container">
-    <div class="container-botones mt-md-5 mt-2">
+    <div class="container-botones mt-md-5 mt-2 justify-content-center">
         <a href="misEventos.php"><button class="btn-principal" id="misEventos"><i class="bi bi-calendar2-event"></i><br>Mis eventos</button></a>
         <a href="recibos.php" class=""> <button class="btn-principal"><i class="bi bi-receipt-cutoff"></i><br>Recibo de haberes</button> </a>
         <a href="" class=""> <button class="btn-principal"><i class="bi bi-app-indicator"></i><br> Novedades</button></a>
