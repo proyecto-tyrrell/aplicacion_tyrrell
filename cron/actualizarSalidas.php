@@ -1,5 +1,5 @@
 <?php
-    require("ConexionDB.php");
+    require("/home/u602072991/public_html/public_html/aplicacion/ConexionDB.php");
     
     // Conectarse a la base de datos (suponiendo que tengas la función connect() definida)
     $conn = connect();
@@ -11,5 +11,6 @@
     while ($row = mysqli_fetch_assoc($result)) {
         $sqlUpdate = "UPDATE eventoUsuarios SET  salida = '". $row['fin'] ."' WHERE id = '". $row['id'] ."'";
         mysqli_query($conn, $sqlUpdate);
+        echo "Una salida actualizada con exito";
     }
 ?>
