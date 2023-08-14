@@ -109,7 +109,11 @@ include('templates/head.php')
                 ?>
                     <td>Finalizado</td>
                 <?php
-                } else {
+                } elseif (($row['fecha_inicio'] <= date("Y-m-d H:i:s")) && ($row['fecha_fin'] >= date("Y-m-d H:i:s"))){
+                ?>
+                    <td>En curso</td>
+                <?php
+                } elseif ($row['fecha_inicio'] > date("Y-m-d H:i:s")) {
                 ?>
                     <td>Pendiente</td>
                 <?php

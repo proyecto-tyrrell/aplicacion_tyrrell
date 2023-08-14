@@ -93,15 +93,19 @@ include('templates/head.php')
             </thead>
                 <?php while ($row = mysqli_fetch_assoc($result)){ ?>
              <tr>
-                 <td> <?php echo  $row['fecha_inicio'] ?> </td>
-                 <td> <?php echo  $row['fecha_fin'] ?> </td>
-                 <td> <?php echo  $row['lugar']  ?></td>
+                <td> <?php echo  $row['fecha_inicio'] ?> </td>
+                <td> <?php echo  $row['fecha_fin'] ?> </td>
+                <td> <?php echo  $row['lugar']  ?></td>
                 <?php
-                if ($row['fecha_fin'] < date("Y-m-d H:i:s")){
+                    if ($row['fecha_fin'] < date("Y-m-d H:i:s")){
                 ?>
                     <td>Finalizado</td>
                 <?php
-                } else {
+                } elseif (($row['fecha_inicio'] <= date("Y-m-d H:i:s")) && ($row['fecha_fin'] >= date("Y-m-d H:i:s"))){
+                ?>
+                    <td>En curso</td>
+                <?php
+                } elseif ($row['fecha_inicio'] > date("Y-m-d H:i:s")) {
                 ?>
                     <td>Pendiente</td>
                 <?php
