@@ -530,4 +530,8 @@ line-height: 70px;}
     border-radius: 5px;
     text-align: center;
   }
+
+  section {
+    width: 95%;
+  }
 }

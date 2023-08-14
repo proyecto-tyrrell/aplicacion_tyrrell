@@ -89,7 +89,7 @@ include('templates/head.php')
         <form class="form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <div class="form-group col-md-6">
 
-                <label class="mb-3" for="lista">Seleccione un proyecto si es lo que tiene:</label>
+                <label class="mb-3" for="lista">Seleccione un proyecto:</label>
                 <select name="lista" id="lista" class="form-select fs-4" required>
                     <?php
         while ($fila = mysqli_fetch_assoc($result)) {

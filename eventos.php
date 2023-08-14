@@ -119,11 +119,18 @@ include('templates/head.php')
                 <?php
                 }
                 ?>
-                <td><a href="asistencias.php?id=<?php echo $row['id']; ?>"id="boton-asistencia"> 
-                    <button class=" btn-general mt-1">Asistencia</button>
-                </a></td>
-                <td><a href="editarEvento.php?id=<?php echo $row['id']; ?>"><button class=" btn-general mt-1">Editar <i class="bi bi-pencil"></i></button></a></td>
-                <td><button class=" btn-general mt-1" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)" >Eliminar <i class="bi bi-trash"></i></button></td>
+                <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="asistencias.php?id=<?php echo $row['id']; ?>">Asistencia</a>
+                        <a class="dropdown-item" href="editarEvento.php?id=<?php echo $row['id']; ?>">Editar <i class="bi bi-pencil"></i></a>
+                        <a class="dropdown-item" href="#" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)">Eliminar <i class="bi bi-trash"></i></a>
+                    </div>
+                </div>
+                </td>
             </tr>
                   
                 <?php } ?>
