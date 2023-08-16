@@ -48,7 +48,6 @@ if ($notificacion['cantidad'] > 0){
         <a href="solicitud.php" class=""> <button class="btn-principal"><i class="bi bi-menu-up"></i><br> Solicitudes</button></a>
         <a href="vehiculos.php" class=""> <button class="btn-principal"><i class="bi bi-car-front"></i><br> Vehiculos</button></a>
         <a href="proyectos.php" class="tn"> <button class="btn-principal"><i class="bi bi-journal-bookmark-fill"></i><br> Proyectos</button></a>
-        <a href="" class=""> <button class="btn-principal"><i class="bi bi-cup-straw"></i><br> Almuerzo</button></a>
         <a href="miUsuario.php" class=""><button class="btn-principal"><i class="bi bi-shield-lock"></i><br> Usuario</button></a>
     <?php if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')) {?>
         <a href="empleados.php" class=""> <button class="btn-principal"><i class="bi bi-people-fill"></i><br> Empleados</button></a>

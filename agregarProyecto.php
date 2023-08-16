@@ -10,6 +10,10 @@ $seccionesVisitadas = array(
         "nombre" => "Proyectos",
         "url" => "proyectos.php"
     ),
+    array(
+        "nombre" => "Nuevo proyecto",
+        "url" => "agregarProyecto.php"
+    ),
    
 );
 
