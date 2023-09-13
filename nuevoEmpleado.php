@@ -102,29 +102,39 @@ include('templates/head.php')
 <?php
     if (isset($_POST['agregar'])){
         if(!empty($_POST['nombre']) and !empty($_POST['dni']) and !empty($_POST['mail']) and !empty($_POST['categoria']) and !empty($_POST['cargo']) and !empty($_POST['cel'])){
-            $nombre = $_POST['nombre'];
             $dni = $_POST['dni'];
-            $mail = $_POST['mail'];
-            $categoria = $_POST['categoria'];
-            $cargo = $_POST['cargo'];
-            $cel = $_POST['cel'];
+            $buscarDni="SELECT * FROM usuarios WHERE dni = ".$dni ;
+            $resultados = mysqli_fetch_assoc(mysqli_query($conn, $buscarDni));
+            if ($resultados < 1) {
+                $nombre = $_POST['nombre'];
+                $mail = $_POST['mail'];
+                $categoria = $_POST['categoria'];
+                $cargo = $_POST['cargo'];
+                $cel = $_POST['cel'];
 
-            //consulta a la base de datos
-            //se crea el usuario con el dni de nombre de usuario y pass
-            $sql = "INSERT INTO usuarios (nombreApellido, dni, mail, pass, categoria, cargo, celular) VALUES ('".$nombre."', '".$dni."', '".$mail."', '".$dni."', '".$categoria."', '".$cargo."', '".$cel."')";
-            try{
-                mysqli_query($conn, $sql)
-            ?>
-        <p class="alert alert-success text-center ">
-            Se ha agregado correctamente
-        </p>
-        <?php
-            }catch(EXCEPTION $e){
-            ?>
-        <p class="alert alert-danger  text-center">
-            Ha ocurrido un error, por favor intentelo mas tarde
-        </p>
-        <?php
+                //consulta a la base de datos
+                //se crea el usuario con el dni de nombre de usuario y pass
+                $sql = "INSERT INTO usuarios (nombreApellido, dni, mail, pass, categoria, cargo, celular) VALUES ('".$nombre."', '".$dni."', '".$mail."', '".$dni."', '".$categoria."', '".$cargo."', '".$cel."')";
+                try{
+                    mysqli_query($conn, $sql)
+                ?>
+            <p class="alert alert-success text-center ">
+                Se ha agregado correctamente
+            </p>
+            <?php
+                }catch(EXCEPTION $e){
+                ?>
+            <p class="alert alert-danger  text-center">
+                Ha ocurrido un error, por favor intentelo mas tarde
+            </p>
+            <?php
+                }
+            }else{
+                ?>
+                <p class="alert alert-danger  text-center">
+                        El usuario ya se encuentra cargado
+                </p>
+                <?php
             }
         }
     }
