@@ -31,7 +31,7 @@ if (empty($_SESSION['token'])) {
     exit;
 }else{
     if ($_SESSION['rol'] !== "adm"){
-        header('Location: usuarios.php');
+        header('Location: principal.php');
         exit;
     } 
 }
