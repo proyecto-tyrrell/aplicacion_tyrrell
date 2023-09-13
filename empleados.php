@@ -55,6 +55,17 @@ include('templates/head.php')
 
 <section class=" pt-5">
     <div class="container">
+
+    <?php
+    if ($_SESSION['rol'] == 'adm'){
+    ?>
+        <a href="nuevoEmpleado.php" class="btn-general">
+            <i class="bi bi-plus-circle-fill fs-7 me-1"></i> Nuevo Empleado
+        </a>
+    <?php
+    }
+    ?>
+
         <table id="miTabla" class="table table-striped">
             <thead>
             <tr>
