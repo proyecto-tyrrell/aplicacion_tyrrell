@@ -52,7 +52,9 @@ if ($notificacion['cantidad'] > 0){
     <?php if (($_SESSION['rol'] == 'adm') or ($_SESSION['rol'] == 'coord')) {?>
         <a href="empleados.php" class=""> <button class="btn-principal"><i class="bi bi-people-fill"></i><br> Empleados</button></a>
         <a href="eventos.php" class=""> <button class="btn-principal"><i class="bi bi-calendar2-event"></i><br>Eventos</button></a>
-        <a href="estadisticas.php" class=""> <button class="btn-principal"><i class="bi bi-bar-chart-line"></i><br>Estadísticas</button></a>
+        <?php if ($_SESSION['rol'] == 'adm'){ ?>
+            <a href="estadisticas.php" class=""> <button class="btn-principal"><i class="bi bi-bar-chart-line"></i><br>Estadísticas</button></a>
+        <?php } ?>
         <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
     <?php } ?>
     </div>
