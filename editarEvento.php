@@ -108,11 +108,42 @@ if (isset($_POST['modLugar'])){
     }
 }
 
+//vehiculos
+$sqlVehiculos = "SELECT * FROM vehiculos WHERE id NOT IN (
+    SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (
+        SELECT id FROM eventos WHERE ('".$evento['fecha_inicio']."' <= fecha_inicio AND '".$evento['fecha_fin']."' >= fecha_inicio) OR ('".$evento['fecha_inicio']."' >= fecha_inicio AND '".$evento['fecha_inicio']."' <= fecha_fin))
+) ORDER BY modelo";
+$vehiculos = mysqli_query($conn, $sqlVehiculos);
+
+$sqlVehiculosDelEvento = "SELECT v.id, modelo, patente FROM vehiculos v JOIN eventoVehiculos ev ON v.id = ev.vehiculo_id WHERE  ev.evento_id = '".$id."'";
+
+if ((isset($_POST['agregarVehiculo'])) && (!empty($_POST['vehiculos']))){
+    $vehiculosSeleccionados = $_POST['vehiculos'];
+
+    // Asignar usuarios al evento
+    foreach ($vehiculosSeleccionados as $vehiculo_id) {
+        $sqlAsignarVehiculo = "INSERT INTO eventoVehiculos (evento_id, vehiculo_id) VALUES ('$id', '$vehiculo_id')";
+        mysqli_query($conn, $sqlAsignarVehiculo);
+    }
+    header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&mensaje=true');
+}
+
+if (isset($_POST['eliminarVehiculo'])) {
+    $vehiculos = isset($_POST['vehiculos']) ? $_POST['vehiculos'] : [];
+
+    // eliminar vehiculos seleccionados
+    foreach ($vehiculos as $vehiculo_id) {
+        $sqlEliminarVehiculo = "DELETE from eventoVehiculos WHERE evento_id = '".$id."' and vehiculo_id = '".$vehiculo_id."'";
+        mysqli_query($conn, $sqlEliminarVehiculo);
+    }
+    header('Location: '.$_SERVER['PHP_SELF'].'?id='.$id.'&mensaje=true');
+    exit();
+}
+
 include('templates/head.php');
 include('templates/header.php');
 include('templates/nav.php');
 ?>
-
 
 <section class=" pt-5">
     <?php
@@ -192,6 +223,50 @@ include('templates/nav.php');
                     <?php
                     }
                 ?>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="d-md-flex justify-content-center">
+            <div class="mx-5 text-center asistencia">
+                <div>
+                    <h3>Vehiculos</h3>
+                    <p>Seleccione los vehiculos que desea eliminar del evento:</p>
+                    <form method="post">
+                        <ul>
+                            <?php
+                            $result = mysqli_query($conn, $sqlVehiculosDelEvento);
+                            while ($row = mysqli_fetch_assoc($result)){ ?>
+                            <li>
+                                <div>
+                                    <label for="<?php echo $row['patente']; ?>"><?php echo $row['modelo']." ".$row['patente']; ?></label>
+                                    <input type="checkbox" id="<?php echo $row['patente']; ?>" name="vehiculos[]" value="<?php echo $row['id']; ?>">
+                                </div>
+                            </li>
+                            <?php
+                            } 
+                            ?>
+                        </ul>
+                        <button type="submit" class="btn-general " name="eliminarVehiculo"><i class="bi bi-box-arrow-in-right  mx-1"></i> Eliminar</button>
+                    </form>
+                </div>
+                <div>
+                    <p>Seleccione los vehiculos que desea agregar al evento:</p>
+                    <form method="post">
+                        <div>
+                            <select id="multiple-checkboxes" name="vehiculos[]" multiple>
+                                <?php
+                                while ($V = mysqli_fetch_assoc($vehiculos)){
+                                ?>
+                                    <option id="<?php echo $V['patente']; ?>" value="<?php echo $V['id']; ?>"><?php echo $V['modelo']." ".$V['patente']; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-general px-4" name="agregarVehiculo" id="agregarVehiculo"><i class="bi bi-box-arrow-in-right  mx-1"></i> Agregar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
