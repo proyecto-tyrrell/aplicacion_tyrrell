@@ -95,80 +95,74 @@ include('templates/head.php')
         <?php
     if (isset($_POST['siguiente'])){
         if ((!empty($_POST['proyecto'])) && (!empty($_POST['fecha-inicio'])) && (!empty($_POST['fecha-fin'])) && (!empty($_POST['lugar'])) && (!empty($_POST['fechas']))){
-            if ($_POST['fecha-inicio'] < $_POST['fecha-fin']){
-                $proyecto_id = $_POST['proyecto'];
-                $fecha_inicio = $_POST['fecha-inicio'];
-                $fecha_fin = $_POST['fecha-fin'];
-                $lugar = $_POST['lugar'];
-                $fechas_seleccionadas = $_POST['fechas'];
+            $proyecto_id = $_POST['proyecto'];
+            $fecha_inicio = $_POST['fecha-inicio'];
+            $fecha_fin = $_POST['fecha-fin'];
+            $lugar = $_POST['lugar'];
+            $fechas_seleccionadas = $_POST['fechas'];
 
-                // vehiculos
-                $sqlVehiculos = "SELECT * FROM vehiculos WHERE id NOT IN (
-                    SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (
-                        SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
-                    )
-                ) ORDER BY modelo";
-                $vehiculos = mysqli_query($conn, $sqlVehiculos);
+            // vehiculos
+            $sqlVehiculos = "SELECT * FROM vehiculos WHERE id NOT IN (
+                SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (
+                    SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
+                )
+            ) ORDER BY modelo";
+            $vehiculos = mysqli_query($conn, $sqlVehiculos);
 
-                // usuarios
-                $sqlUsuarios = "SELECT * FROM usuarios WHERE id NOT IN (
-                    SELECT usuario_id FROM eventoUsuarios WHERE evento_id IN (
-                        SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
-                        AND salida is null)
-                ) ORDER BY nombreApellido";
-                $usuarios = mysqli_query($conn, $sqlUsuarios);
-                ?>
-            <script>
-            document.getElementById("form-agregar-evento-1").style.display = "none";
-            </script>
-
-            <form method="post" id="form-agregar-evento-2">
-                <div class="d-md-flex justify-content-start">
-
-                    <div class="me-5">
-                        <h3>Vehiculos:</h3>
-                        <select id="multiple-checkboxes" name="vehiculos[]" multiple>
-
-                            <?php
-                            while ($V = mysqli_fetch_assoc($vehiculos)){
-                            ?>
-                            <option id="<?php echo $V['patente']; ?>" value="<?php echo $V['id']; ?>"><?php echo $V['modelo'].", ".$V['patente']; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div>
-                        <h3>Usuarios:</h3>
-                        <select id="multiple-checkboxes2" name="usuarios[]" multiple>
-                            <?php
-                            while ($U = mysqli_fetch_assoc($usuarios)){
-                            ?>
-                                <option id="<?php echo $U['dni']; ?>" value="<?php echo $U['id']; ?>"><?php echo $U['nombreApellido']; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="m-5 mx-0">
-                    <input name="proyecto" value="<?php echo $proyecto_id;?>" type="hidden">
-                    <input name="fecha-inicio" value="<?php echo $fecha_inicio; ?>" type="hidden">
-                    <input name="fecha-fin" value="<?php echo $fecha_fin; ?>" type="hidden">
-                    <input name="lugar" value="<?php echo $lugar; ?>" type="hidden">
-                    <input name="fechas" value='<?php echo $fechas_seleccionadas ?>' type="hidden">
-                    <button type="submit" class="btn-general px-4" name="cargar">Cargar</button>
-                </div>
-
-            </form>
-            <?php
-            } else {
+            // usuarios
+            $sqlUsuarios = "SELECT * FROM usuarios WHERE id NOT IN (
+                SELECT usuario_id FROM eventoUsuarios WHERE evento_id IN (
+                    SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
+                    AND salida is null)
+            ) ORDER BY nombreApellido";
+            $usuarios = mysqli_query($conn, $sqlUsuarios);
             ?>
-                <p class="alert alert-danger  text-center">La fecha de inicio debe ser anterior a la de fin</p>
-            <?php
-            }
+        <script>
+        document.getElementById("form-agregar-evento-1").style.display = "none";
+        </script>
+
+        <form method="post" id="form-agregar-evento-2">
+            <div class="d-md-flex justify-content-start">
+
+                <div class="me-5">
+                    <h3>Vehiculos:</h3>
+                    <select id="multiple-checkboxes" name="vehiculos[]" multiple>
+
+                        <?php
+                        while ($V = mysqli_fetch_assoc($vehiculos)){
+                        ?>
+                        <option id="<?php echo $V['patente']; ?>" value="<?php echo $V['id']; ?>"><?php echo $V['modelo'].", ".$V['patente']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div>
+                    <h3>Usuarios:</h3>
+                    <select id="multiple-checkboxes2" name="usuarios[]" multiple>
+                        <?php
+                        while ($U = mysqli_fetch_assoc($usuarios)){
+                        ?>
+                            <option id="<?php echo $U['dni']; ?>" value="<?php echo $U['id']; ?>"><?php echo $U['nombreApellido']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="m-5 mx-0">
+                <input name="proyecto" value="<?php echo $proyecto_id;?>" type="hidden">
+                <input name="fecha-inicio" value="<?php echo $fecha_inicio; ?>" type="hidden">
+                <input name="fecha-fin" value="<?php echo $fecha_fin; ?>" type="hidden">
+                <input name="lugar" value="<?php echo $lugar; ?>" type="hidden">
+                <input name="fechas" value='<?php echo $fechas_seleccionadas ?>' type="hidden">
+                <button type="submit" class="btn-general px-4" name="cargar">Cargar</button>
+            </div>
+
+        </form>
+        <?php
         }else{
-            ?>
+        ?>
         <p class="alert alert-danger  text-center">Debe ingresar todos los campos</p>
         <?php
         }
@@ -184,7 +178,15 @@ include('templates/head.php')
         foreach ($fechas_seleccionadas as $fecha){
 
             $fecha_inicio = $fecha . " " . $hora_inicio;
-            $fecha_fin = $fecha . " " . $hora_fin;
+            if ($hora_inicio < $hora_fin){
+                $fecha_fin = $fecha . " " . $hora_fin;
+            }else{
+                $fecha = date("Y-m-d", strtotime($fecha . " +1 day"));
+                $fecha_fin = $fecha . " " . $hora_fin;
+            }
+
+            echo $fecha_inicio;
+            echo $fecha_fin;
             
             //crear evento
             $sql = "INSERT INTO eventos (usuario_id, proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$_SESSION['id']."', '".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
