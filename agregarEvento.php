@@ -184,9 +184,6 @@ include('templates/head.php')
                 $fecha = date("Y-m-d", strtotime($fecha . " +1 day"));
                 $fecha_fin = $fecha . " " . $hora_fin;
             }
-
-            echo $fecha_inicio;
-            echo $fecha_fin;
             
             //crear evento
             $sql = "INSERT INTO eventos (usuario_id, proyecto_id, fecha_inicio, fecha_fin, lugar) VALUES ('".$_SESSION['id']."', '".$proyecto_id."', '".$fecha_inicio."', '".$fecha_fin."', '".$lugar."')";
