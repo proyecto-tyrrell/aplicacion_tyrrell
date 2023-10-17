@@ -28,6 +28,11 @@ if (empty($_SESSION['token'])) {
     //si no esta el token de inicio de sesion redirigir al index
     header('Location: index.php');
     exit;
+}else{
+    if ($_SESSION['rol'] !== "adm"){
+        header('Location: principal.php');
+        exit;
+    } 
 }
 
 // Obtener el nombre de usuario

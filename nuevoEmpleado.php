@@ -30,7 +30,7 @@ if (empty($_SESSION['token'])) {
     header('Location: index.php');
     exit;
 }else{
-    if ($_SESSION['rol'] !== "adm"){
+    if ($_SESSION['rol'] !== "usr" && $_SESSION['rol'] !== "coord"){
         header('Location: principal.php');
         exit;
     } 

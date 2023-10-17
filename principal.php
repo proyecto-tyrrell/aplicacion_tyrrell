@@ -54,8 +54,8 @@ if ($notificacion['cantidad'] > 0){
         <a href="eventos.php" class=""> <button class="btn-principal"><i class="bi bi-calendar2-event"></i><br>Eventos</button></a>
         <?php if ($_SESSION['rol'] == 'adm'){ ?>
             <a href="estadisticas.php" class=""> <button class="btn-principal"><i class="bi bi-bar-chart-line"></i><br>Estadísticas</button></a>
+            <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
         <?php } ?>
-        <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
     <?php } ?>
     </div>
 

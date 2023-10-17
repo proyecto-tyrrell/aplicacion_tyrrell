@@ -21,6 +21,11 @@ if (empty($_SESSION['token'])) {
     //si no esta el token de inicio de sesion redirigir al index
     header('Location: index.php');
     exit;
+}else{
+    if ($_SESSION['rol'] !== "adm" && $_SESSION['rol'] !== "coord"){
+        header('Location: principal.php');
+        exit;
+    } 
 }
 
 // Obtener el nombre de usuario
@@ -57,7 +62,7 @@ include('templates/head.php')
     <div class="container">
 
     <?php
-    if ($_SESSION['rol'] == 'adm'){
+    if ($_SESSION['rol'] == 'adm' || $_SESSION['rol'] == 'coord'){
     ?>
         <a href="nuevoEmpleado.php" class="btn-general">
             <i class="bi bi-plus-circle-fill fs-7 me-1"></i> Nuevo Empleado

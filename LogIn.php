@@ -26,6 +26,9 @@ if ($resultados > 0){
     if ($resultados['categoria'] == 'usuario'){
         $_SESSION['rol'] = 'usr';
     }
+    if ($resultados['categoria'] == 'coord'){
+        $_SESSION['rol'] = 'coord';
+    }
     $_SESSION['id'] = $resultados['id'];
     header("Location: principal.php");
     exit();

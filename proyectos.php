@@ -61,7 +61,7 @@ include('templates/head.php')
     <div class="container">
         <div class="text-end">
             <?php
-    if ($_SESSION['rol'] == 'adm'){
+    if ($_SESSION['rol'] == 'adm' || $_SESSION['rol'] == 'coord'){
 ?>
             <a href="agregarProyecto.php" class="btn-general">
                 <i class="bi bi-plus-circle-fill fs-7 me-1"></i> Nuevo proyecto
