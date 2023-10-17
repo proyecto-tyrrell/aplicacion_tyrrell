@@ -101,10 +101,33 @@ include('templates/head.php')
             $lugar = $_POST['lugar'];
             $fechas_seleccionadas = $_POST['fechas'];
 
+
+            //obtener los usuarios y vehiculos que no estan seleccionados en otro evento, que se suponga con el que se esta creando,
+            //si se seleccionaron varias fechas, apareceran disponibles los elementos que no se superpongan con ninguna de ellas.
+            $fechas = explode(',', $fechas_seleccionadas);
+
+            $filtro = '';
+
+            foreach ($fechas as $fecha){
+
+                $inicio = $fecha . " " . $fecha_inicio;
+                if ($fecha_inicio < $fecha_fin){
+                    $fin = $fecha . " " . $fecha_fin;
+                }else{
+                    $fecha = date("Y-m-d", strtotime($fecha . " +1 day"));
+                    $fin = $fecha . " " . $fecha_fin;
+                }
+
+                $filtro .= "(('".$inicio."' <= fecha_inicio AND '".$fin."' >= fecha_inicio) OR ('".$inicio."' >= fecha_inicio AND '".$inicio."' <= fecha_fin)) OR ";
+
+            }
+
+            $filtro = rtrim($filtro, ' OR ');
+
             // vehiculos
             $sqlVehiculos = "SELECT * FROM vehiculos WHERE id NOT IN (
                 SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (
-                    SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
+                    SELECT id FROM eventos WHERE ( $filtro )
                 )
             ) ORDER BY modelo";
             $vehiculos = mysqli_query($conn, $sqlVehiculos);
@@ -112,7 +135,7 @@ include('templates/head.php')
             // usuarios
             $sqlUsuarios = "SELECT * FROM usuarios WHERE id NOT IN (
                 SELECT usuario_id FROM eventoUsuarios WHERE evento_id IN (
-                    SELECT id FROM eventos WHERE ('".$fecha_inicio."' <= fecha_inicio AND '".$fecha_fin."' >= fecha_inicio) OR ('".$fecha_inicio."' >= fecha_inicio AND '".$fecha_inicio."' <= fecha_fin)
+                    SELECT id FROM eventos WHERE ( $filtro )
                     AND salida is null)
             ) ORDER BY nombreApellido";
             $usuarios = mysqli_query($conn, $sqlUsuarios);
