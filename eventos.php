@@ -101,14 +101,22 @@ include('templates/head.php')
                 <th scope="col">Inicio</th>
                 <th scope="col">Fin</th>
                 <th scope="col">Lugar</th>
+                <th scope="col">Proyecto</th>
                 <th scope="col">Estado</th>
             </tr>
             </thead>
                 <?php while ($row = mysqli_fetch_assoc($result)){ ?>
              <tr>
-                 <td> <?php echo  $row['fecha_inicio'] ?> </td>
-                 <td> <?php echo  $row['fecha_fin'] ?> </td>
-                 <td> <?php echo  $row['lugar']  ?></td>
+                <td> <?php echo  $row['fecha_inicio'] ?> </td>
+                <td> <?php echo  $row['fecha_fin'] ?> </td>
+                <td> <?php echo  $row['lugar']  ?></td>
+                <td>
+                <?php
+                    $sqlNombreProyecto = "SELECT codigo FROM proyectos where id = " .$row['proyecto_id'];
+                    $nombreProyecto = mysqli_fetch_assoc(mysqli_query($conn, $sqlNombreProyecto));
+                    echo $nombreProyecto['codigo'];
+                ?>
+                </td>
                  <?php
                 if ($row['fecha_fin'] < date("Y-m-d H:i:s")){
                 ?>

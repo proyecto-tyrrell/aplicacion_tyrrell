@@ -107,40 +107,55 @@ include('templates/head.php')
                     <th scope="col">Asistencias</th>
                     <th scope="col">Inasistencias</th>
                     <th scope="col">Horas trabajadas</th>
-                    <th scope="col">Horas extra</th>
+                    <th scope="col">Proyecto</th>
                 </tr><thead>
-                <?php while ($usuario = mysqli_fetch_assoc($usuarios)){ ?>
+                <?php while ($usuario = mysqli_fetch_assoc($usuarios)){
+                    $sqlProyectos = "select proyecto_id from eventos join eventoUsuarios eu on eventos.id = eu.evento_id where eu.usuario_id = '".$usuario['id']."' 
+                    and month(fecha_inicio) = '".$_POST['mes']."' and year(fecha_inicio) = '".$_POST['year']."' group by eventos.proyecto_id";
+
+                    $proyectos = mysqli_query($conn, $sqlProyectos);
+                    while ($proyecto = mysqli_fetch_assoc($proyectos)){
+                ?>
                 <tr>
                     <td><?php echo $usuario['nombreApellido']; ?></td>
                     <?php
+
                         $sqlCantidadHoras= "SELECT ingreso, salida FROM eventoUsuarios WHERE usuario_id = '".$usuario['id']."' and evento_id IN 
-                        (SELECT id from eventos WHERE month(fecha_inicio) = '".$_POST['mes']."' and year(fecha_inicio) = '".$_POST['year']."')";
+                        (SELECT id from eventos WHERE month(fecha_inicio) = '".$_POST['mes']."' and year(fecha_inicio) = '".$_POST['year']."' and proyecto_id = '".$proyecto['proyecto_id']."')";
                         $totalHoras = mysqli_query($conn, $sqlCantidadHoras);
                         $total = 0; //total horas
                         $cantidadEventos = 0;
                         $asistencias = 0; //cantidad de asistencias
                         $inasistencias = 0; //cantidad inasistencias
                         while ($horas = mysqli_fetch_assoc($totalHoras)){
+                            $suma = 0;
                             $cantidadEventos ++;
                             if (($horas['ingreso'] != null) && ($horas['salida'] != null)){
-                                $suma = strtotime($horas['salida']) - strtotime($horas['ingreso']);
+                                $ingreso = new DateTime($horas['ingreso']);
+                                $salida = new DateTime($horas['salida']);
+                                $interval = $ingreso->diff($salida);
+                                $suma = $interval->h;
                                 $total += $suma;
                                 $asistencias ++; //cantidad de asistencias + 1
                             }else{
                                 $inasistencias ++; // inasistencias + 1
                             }
                         }
-
-                        //convertir segundos a horas
-                        $total = round($total / 3600);
                     ?>
                     <td><?php echo $cantidadEventos;?></td>
                     <td><?php echo $asistencias;?></td>
                     <td><?php echo $inasistencias;?></td>
                     <td><?php echo $total;?>hs</td>
-                    <td>Horas extra</td>
+                    <td><?php
+                        $sqlNombreProyecto = "SELECT nombre, codigo FROM proyectos where id = " .$proyecto['proyecto_id'];
+                        $nombreProyecto = mysqli_fetch_assoc(mysqli_query($conn, $sqlNombreProyecto));
+                        echo $nombreProyecto['nombre'] . ", " . $nombreProyecto['codigo'];
+                    ?>
+                    </td>
                 </tr>
-                <?php } ?>
+                <?php } 
+                }
+                ?>
             </table>
         </div>
     <?php } ?>
