@@ -30,7 +30,7 @@ if (empty($_SESSION['token'])) {
     header('Location: index.php');
     exit;
 }else{
-    if ($_SESSION['rol'] !== "usr" && $_SESSION['rol'] !== "coord"){
+    if ($_SESSION['rol'] !== "adm" && $_SESSION['rol'] !== "coord"){
         header('Location: principal.php');
         exit;
     } 
@@ -91,7 +91,7 @@ include('templates/head.php')
                 </select>
             </div>
             <div class="col-md-12 mt-5">
-                <button type="submit" class="btn-general" name="agregar">Agregar Empleado</button>
+                <button type="submit" class="btn btn-primary" name="agregar">Agregar Empleado</button>
             </div>
         </form>
     </div>

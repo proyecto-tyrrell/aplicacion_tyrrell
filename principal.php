@@ -25,26 +25,41 @@ $id = $_SESSION['id'];
 $sqlNotifiacion= "SELECT COUNT(*) AS cantidad FROM notificaciones WHERE usuario_id = '".$id."' AND visto = false";
 $notificacion = mysqli_fetch_assoc(mysqli_query($conn, $sqlNotifiacion));
 
+$sqlNovedad = "SELECT COUNT(*) AS cantidad FROM novedadUsuarios WHERE usuario_id = '".$id."' AND notificacion = false";
+$novedad = mysqli_fetch_assoc(mysqli_query($conn, $sqlNovedad));
+
+
 //mostrar animacion de notificacion
-$animacion = "false";
+$eventoNuevo = "false";
+
+//mostrar animacion de novedad
+$novedadNueva = "false";
 
 include('templates/head.php')
 ?>
 <?php include('templates/header.php');
 
 if ($notificacion['cantidad'] > 0){ 
-    $animacion = "true";?>
+    $eventoNuevo = "true";?>
     <div class="alert alert-info text-center">Tienes un nuevo evento</div>
 <?php } ?>
 
-<p id="animacion" class="no-mostrar"><?php echo $animacion;?></p>
+<?php
+if ($novedad['cantidad'] > 0){ 
+    $novedadNueva = "true";?>
+    <div class="alert alert-info text-center">Hay una nueva novedad</div>
+<?php } ?>
+
+<p id="eventoNuevo" class="no-mostrar"><?php echo $eventoNuevo;?></p>
+
+<p id="novedadNueva" class="no-mostrar"><?php echo $novedadNueva;?></p>
 
 <section class="pt-md-4">
 <div class="container">
     <div class="container-botones mt-md-5 mt-2 justify-content-center">
         <a href="misEventos.php"><button class="btn-principal" id="misEventos"><i class="bi bi-calendar2-event"></i><br>Mis eventos</button></a>
         <a href="recibos.php" class=""> <button class="btn-principal"><i class="bi bi-receipt-cutoff"></i><br>Recibo de haberes</button> </a>
-        <a href="" class=""> <button class="btn-principal"><i class="bi bi-app-indicator"></i><br> Novedades</button></a>
+        <a href="novedades.php"><button class="btn-principal" id="novedades"><i class="bi bi-app-indicator"></i><br> Novedades</button></a>
         <a href="solicitud.php" class=""> <button class="btn-principal"><i class="bi bi-menu-up"></i><br> Solicitudes</button></a>
         <a href="vehiculos.php" class=""> <button class="btn-principal"><i class="bi bi-car-front"></i><br> Vehiculos</button></a>
         <a href="proyectos.php" class="tn"> <button class="btn-principal"><i class="bi bi-journal-bookmark-fill"></i><br> Proyectos</button></a>
@@ -54,7 +69,7 @@ if ($notificacion['cantidad'] > 0){
         <a href="eventos.php" class=""> <button class="btn-principal"><i class="bi bi-calendar2-event"></i><br>Eventos</button></a>
         <?php if ($_SESSION['rol'] == 'adm'){ ?>
             <a href="estadisticas.php" class=""> <button class="btn-principal"><i class="bi bi-bar-chart-line"></i><br>Estadísticas</button></a>
-            <a href="" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
+            <a href="RRHH.php" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
         <?php } ?>
     <?php } ?>
     </div>
