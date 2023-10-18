@@ -70,8 +70,8 @@ if ($novedad['cantidad'] > 0){
         <?php if ($_SESSION['rol'] == 'adm'){ ?>
             <a href="estadisticas.php" class=""> <button class="btn-principal"><i class="bi bi-bar-chart-line"></i><br>Estadísticas</button></a>
             <a href="RRHH.php" class=""><button class="btn-principal"><i class="bi bi-person-workspace"></i><br> RRHH</button></a>
-        <?php } ?>
-    <?php } ?>
+        <?php }
+        } ?>
     </div>
 
 </div>

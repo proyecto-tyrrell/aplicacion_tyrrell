@@ -111,7 +111,7 @@ include('templates/head.php')
                                 <?php
                                 $counter = 0;
                                 while ($U = mysqli_fetch_assoc($usuarios)) {
-                                    if ($counter % 6 == 0) {
+                                    if ($counter % 5 == 0) {
                                         ?></div><div class="row"><?php
                                     }
                                     ?>
