@@ -43,17 +43,14 @@ if (isset($_POST['filtrar'])){
         $fecha_hora = $_POST['fecha-hora'];
         $filtro = "DATE(fecha_inicio) = '".$fecha_hora."'";
         $darMensaje = false;
-        $limite = "";
     } else {
-        $filtro = "1";
-        $limite = "limit 20";
+         $filtro = "DATE(fecha_inicio) = ". date("Y-m-d");
     }
 }else{
-    $filtro = "1";
-    $limite = "limit 20";
+    $filtro = "DATE(fecha_inicio) = '". date("Y-m-d")."'";
 }
 
-$sql = "SELECT * from eventos WHERE ".$filtro." ORDER BY fecha_inicio DESC ". $limite;
+$sql = "SELECT * from eventos WHERE ".$filtro." ORDER BY fecha_inicio DESC";
 $result = mysqli_query($conn, $sql);
 
 include('templates/head.php')
@@ -91,7 +88,7 @@ include('templates/head.php')
     if (mysqli_num_rows($result) > 0){
         if ($darMensaje == true){
 ?>
-            <h4 class="alert alert-info p-3 text-center">Ultimos eventos </h4>
+            <h4 class="alert alert-info p-3 text-center">Eventos del día</h4>
             <?php
         }
 ?>
