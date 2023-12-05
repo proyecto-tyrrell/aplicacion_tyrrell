@@ -30,14 +30,10 @@ $nombre_usuario = $_SESSION['nombre'];
 $conn = connect();
 
 //consulta a la base de datos
-$sql = "SELECT id, patente, modelo FROM vehiculos ORDER BY modelo ASC;";
+$sql = "SELECT * FROM vehiculos ORDER BY modelo ASC;";
 
 //seleccionar los id de los vehiculos que este cargado en un evento que esta sucediendo ahora (usuarios ocupados)
-$sqlEstado = "SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (
-        SELECT id FROM eventos WHERE fecha_inicio <= '".date('Y-m-d H:i:s')."' AND fecha_fin > '".date('Y-m-d H:i:s')."')";
-
-//conectarse a la base de datos
-$conn = connect();
+$sqlEstado = "SELECT vehiculo_id FROM eventoVehiculos WHERE evento_id IN (SELECT id FROM eventos WHERE fecha_inicio <= '".date('Y-m-d H:i:s')."' AND fecha_fin > '".date('Y-m-d H:i:s')."')";
 
 $result = mysqli_query($conn, $sql);
 $estadoResult = mysqli_query($conn, $sqlEstado);
@@ -45,6 +41,25 @@ $estadoRows = array();
 
 while ($estadoRow = mysqli_fetch_assoc($estadoResult)) {
     $estadoRows[] = $estadoRow['vehiculo_id'];
+}
+
+function obtenerObservaciones($vehiculoId) {
+    global $conn;
+
+    // Consulta SQL para obtener observaciones
+    $sqlObservaciones = "SELECT DATE(fecha) as fecha, mensaje FROM mensajeVehiculos WHERE vehiculo_id = $vehiculoId";
+
+    $result = mysqli_query($conn, $sqlObservaciones);
+    
+    if ($result) {
+        $observaciones = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $observaciones[] = $row;
+        }
+        return $observaciones;
+    } else {
+        return array("Error al obtener observaciones");
+    }
 }
 
 include('templates/head.php')
@@ -60,19 +75,43 @@ include('templates/head.php')
             </a>
         </div>
     <div class="container">
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">Observaciones</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <table id="miTabla" class="table table-striped">
             <thead>
             <tr>
-            <th scope=" col">Modelo</th>
-            <th scope="col">Patente</th>
-            <th scope="col">Estado</th>
+                <th scope="col" class="text-center">Modelo</th>
+                <th scope="col"  class="text-center">Patente</th>
+                <th scope="col"  class="text-center">Kilometraje</th>
+                <th scope="col"  class="text-center">Estado</th>
             </tr>
             </thead>
             <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)){ ?>
             <tr>
-                <td><?php echo $row['modelo']?></td>
-                <td> <?php echo $row['patente'] ?></td>
+                <td  class="text-center"><?php echo $row['modelo']?></td>
+                <td  class="text-center"> <?php echo $row['patente'] ?></td>
+                <td  class="text-center"> <?php echo $row['kilometraje'] ?></td>
+
                 <?php
                     $id = $row['id']; // Obtener el ID de la fila actual
                     $ocupado = false; // Variable para almacenar si el ID está disponible
@@ -86,7 +125,6 @@ include('templates/head.php')
                     }
                 ?>
                 
-                
                 <td class="<?php echo ($ocupado) ? "ocupado" : "disponible"; ?>">
                     <p class=p-3 disponible>
                 <?php
@@ -99,6 +137,22 @@ include('templates/head.php')
                 ?>
                 </p>
                 </td>
+
+                <td class="text-center">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
+                        $observaciones = obtenerObservaciones($row['id']);
+                        $observacionesJson = json_encode($observaciones);
+                        echo htmlspecialchars($observacionesJson);
+                    ?>"></i> Observaciones</button>
+                        <!-- <button class="dropdown-item" id="botonModal" data-toggle="modal" data-target="#myModal"><i class="bi bi-car-front-fill"></i> Uso</button> -->
+                    </div>
+                </div>
+                </td>
                 
             </tr>
             </tbody>
@@ -106,4 +160,5 @@ include('templates/head.php')
         </table>
     </div>
 </section>
+<script src="js\observacionesVehiculo.js"></script>
 <?php include('templates/footer.php')?>

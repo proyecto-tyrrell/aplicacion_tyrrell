@@ -35,9 +35,19 @@ $eventoNuevo = "false";
 //mostrar animacion de novedad
 $novedadNueva = "false";
 
+$conduccionRegistrada = false;
+
 include('templates/head.php')
 ?>
 <?php include('templates/header.php');
+
+if (!empty($_GET['conduccion'])){
+    $conduccionRegistrada = true;
+}
+
+if ($conduccionRegistrada == true){ ?>
+    <div class="alert alert-info text-center">Conducción registrada</div>
+<?php }
 
 if ($notificacion['cantidad'] > 0){ 
     $eventoNuevo = "true";?>

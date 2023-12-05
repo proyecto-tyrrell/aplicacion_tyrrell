@@ -9,6 +9,9 @@ if (!empty($_POST['usuario'])){
 if (!empty($_POST['contraseña'])){
     $contrasena = $_POST['contraseña'];
 }
+if (!empty($_POST['vehiculo'])){
+    $vehiculo = $_POST['vehiculo'];
+}
 
 $conexionDB = connect();
 
@@ -30,7 +33,11 @@ if ($resultados > 0){
         $_SESSION['rol'] = 'coord';
     }
     $_SESSION['id'] = $resultados['id'];
-    header("Location: principal.php");
+    if (empty($vehiculo)){
+        header("Location: principal.php");
+    }else{
+        header("Location: registrarConduccion.php?vehiculo=".$vehiculo);
+    }
     exit();
 }else{
     $_SESSION['incorrecto'] = true;

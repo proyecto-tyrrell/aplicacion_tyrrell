@@ -21,6 +21,11 @@ include('templates/head.php')?>
         <label for="password"><i class="bi bi-key-fill"></i> </label>
         <input class="" type="password" id="password" name="contraseña" placeholder="Contraseña" required/>
     </div>
+    <?php if (!empty($_GET['vehiculo'])){ ?>
+        <div>
+            <input type="hidden" value="<?php echo $_GET["vehiculo"];?>" name="vehiculo">
+        </div>
+    <?php } ?>
     <div>
         <?php
             if (!empty($_SESSION['incorrecto'])){

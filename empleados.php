@@ -74,18 +74,18 @@ include('templates/head.php')
         <table id="miTabla" class="table table-striped">
             <thead>
             <tr>
-            <th scope=" col">Nombre</th>
-            <th scope="col">DNI</th>
-            <th scope="col">Celular</th>
-            <th scope="col">Estado</th>
+                <th scope=" col" class="text-center">Nombre</th>
+                <th scope="col" class="text-center">DNI</th>
+                <th scope="col" class="text-center">Celular</th>
+                <th scope="col" class="text-center">Estado</th>
             </tr>
             </thead>
             <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)){ ?>
             <tr>
-                <td><?php echo $row['nombreApellido']?></td>
-                <td> <?php echo $row['dni'] ?></td>
-                <td> <?php echo $row['celular'] ?></td>
+                <td class="text-center"><?php echo $row['nombreApellido']?></td>
+                <td class="text-center"> <?php echo $row['dni'] ?></td>
+                <td class="text-center"> <?php echo $row['celular'] ?></td>
                 <?php
                     $id = $row['id']; // Obtener el ID de la fila actual
                     $ocupado = false; // Variable para almacenar si el ID está disponible
@@ -100,7 +100,7 @@ include('templates/head.php')
                 ?>
                 
                 
-                <td class="<?php echo ($ocupado) ? "ocupado" : "disponible"; ?>">
+                <td class="<?php echo ($ocupado) ? "ocupado" : "disponible"; ?> text-center">
                     <p class=p-3 disponible>
                 <?php
                     // Mostrar "Disponible" o "Ocupado" según el valor de $ocupado
