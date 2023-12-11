@@ -12,11 +12,12 @@ $(document).ready(function() {
             // Iterar sobre las observaciones
             for (var i = 0; i < observaciones.length; i++) {
                 // Formatear la fecha en el formato deseado
-                var fecha = new Date(observaciones[i].fecha);
-                var formattedFecha = fecha.toLocaleDateString('de', {timeZone: "UTC"});
+                //var fecha = new Date(observaciones[i].fecha);
+                //var formattedFecha = fecha.toLocaleDateString('de', {timeZone: "UTC"});
+                
 
                 // Construir la fila de la tabla
-                tableHTML += '<tr><td class="text-center">' + formattedFecha + '</td><td class="text-center">' + observaciones[i].mensaje + '</td></tr>';
+                tableHTML += '<tr><td class="text-center text-nowrap">' + observaciones[i].fecha + '</td><td class="text-center">' + observaciones[i].mensaje + '</td></tr>';
             }
             tableHTML += '</tbody></table>';
         } else {

@@ -221,6 +221,8 @@ include('templates/head.php')
                 // echo $vehiculo_id;
                     $sqlAsignarVehiculo = "INSERT INTO eventoVehiculos (evento_id, vehiculo_id) VALUES ('$evento_id', '$vehiculo_id')";
                     mysqli_query($conn, $sqlAsignarVehiculo);
+
+                    $sqlVehiculoProyecto = "INSERT INTO vehiculoProyecto (vehiculo_id, proyecto_id, fecha) VALUES ('".$vehiculo_id."', '".$proyecto_id."', '".date("Y-m-d H:i:s")."')";
                 }
             }            
 

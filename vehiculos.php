@@ -188,7 +188,7 @@ include('templates/head.php')
                             $observacionesJson = json_encode($observaciones);
                             echo htmlspecialchars($observacionesJson);
                         ?>"><i class="bi bi-info-circle"></i> Observaciones</button>
-                        <button class="2dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
+                        <button class="2 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
                             data-uso="<?php 
                             $uso = obtenerUso($row['id']);
                             $usoJson = json_encode($uso);
