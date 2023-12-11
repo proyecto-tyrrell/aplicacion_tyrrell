@@ -10,11 +10,7 @@ $(document).ready(function() {
        if (Array.isArray(observaciones) && observaciones.length > 0) {
             tableHTML = '<table class="table table-striped"><thead><tr><th class="text-center">Fecha</th><th class="text-center">Observaciones</th></tr></thead><tbody>';
             // Iterar sobre las observaciones
-            for (var i = 0; i < observaciones.length; i++) {
-                // Formatear la fecha en el formato deseado
-                //var fecha = new Date(observaciones[i].fecha);
-                //var formattedFecha = fecha.toLocaleDateString('de', {timeZone: "UTC"});
-                
+            for (var i = 0; i < observaciones.length; i++) {                
 
                 // Construir la fila de la tabla
                 tableHTML += '<tr><td class="text-center text-nowrap">' + observaciones[i].fecha + '</td><td class="text-center">' + observaciones[i].mensaje + '</td></tr>';
