@@ -66,7 +66,7 @@ include('templates/head.php')
                 <option value="8" <?php if(!empty($_POST['mes']) && $_POST['mes'] == 8){ echo "selected";}?>>Agosto</option>
                 <option value="9" <?php if(!empty($_POST['mes']) && $_POST['mes'] == 9){ echo "selected";}?>>Septiembre</option>
                 <option value="10" <?php if(!empty($_POST['mes']) && $_POST['mes'] == 10){ echo "selected";}?>>Octubre</option>
-                <option value="11" <?php if(!empty($_POST['mes']) && $_POST['mes'] == 11){ echo "selected";}?>>Nobiembre</option>
+                <option value="11" <?php if(!empty($_POST['mes']) && $_POST['mes'] == 11){ echo "selected";}?>>Noviembre</option>
                 <option value="12" <?php if(!empty($_POST['mes']) && $_POST['mes'] == 12){ echo "selected";}?>>Diciembre</option>
             </select>
             <label class=" d-inline" for="year-select">Año:</label>

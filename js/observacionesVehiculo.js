@@ -1,7 +1,5 @@
 $(document).ready(function() {
     $('#miTabla').on('click', '.dropdown-item[data-toggle="modal"]', function() {
-
-        var vehiculoId = $(this).data('id');
         
         var observaciones = $(this).data('observaciones');
 

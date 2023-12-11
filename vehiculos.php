@@ -43,6 +43,25 @@ while ($estadoRow = mysqli_fetch_assoc($estadoResult)) {
     $estadoRows[] = $estadoRow['vehiculo_id'];
 }
 
+function obtenerUso($vehiculoId){
+    global $conn;
+
+    //consulta SQL para obtener uso por vehiculo por proyecto
+    $sqlUso = "SELECT p.nombre as proyecto , count(*) as cantidad FROM vehiculoProyecto vp JOIN proyectos p on p.id = vp.proyecto_id WHERE vehiculo_id = $vehiculoId GROUP BY nombre";
+
+    $result = mysqli_query($conn, $sqlUso);
+
+    if ($result) {
+        $uso = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $uso[] = $row;
+        }
+        return $uso;
+    } else {
+        return array("Error al obtener uso");
+    }
+}
+
 function obtenerObservaciones($vehiculoId) {
     global $conn;
 
@@ -76,12 +95,32 @@ include('templates/head.php')
         </div>
     <div class="container">
 
-        <!-- Modal -->
+        <!-- Modal observaciones -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                             <h5 class="modal-title" id="myModalLabel">Observaciones</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal uso -->
+        <div class="modal fade" id="modalUso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="modalUsoLabel">Uso</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -144,12 +183,17 @@ include('templates/head.php')
                         <i class="bi bi-gear"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
-                        $observaciones = obtenerObservaciones($row['id']);
-                        $observacionesJson = json_encode($observaciones);
-                        echo htmlspecialchars($observacionesJson);
-                    ?>"></i> Observaciones</button>
-                        <!-- <button class="dropdown-item" id="botonModal" data-toggle="modal" data-target="#myModal"><i class="bi bi-car-front-fill"></i> Uso</button> -->
+                        <button class="dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
+                            $observaciones = obtenerObservaciones($row['id']);
+                            $observacionesJson = json_encode($observaciones);
+                            echo htmlspecialchars($observacionesJson);
+                        ?>"><i class="bi bi-info-circle"></i> Observaciones</button>
+                        <button class="2dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
+                            data-uso="<?php 
+                            $uso = obtenerUso($row['id']);
+                            $usoJson = json_encode($uso);
+                            echo htmlspecialchars($usoJson);?>"
+                        ><i class="bi bi-car-front-fill"></i> Uso</button>
                     </div>
                 </div>
                 </td>
@@ -160,5 +204,6 @@ include('templates/head.php')
         </table>
     </div>
 </section>
+<script src="js\usoVehiculos.js"></script>
 <script src="js\observacionesVehiculo.js"></script>
 <?php include('templates/footer.php')?>
