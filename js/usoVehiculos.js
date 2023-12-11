@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#miTabla').on('click', '.2dropdown-item[data-toggle="modal"]', function() {
+    $('#miTabla').on('click', '.2 dropdown-item[data-toggle="modal"]', function() {
         
         var uso = $(this).data('uso');
 
