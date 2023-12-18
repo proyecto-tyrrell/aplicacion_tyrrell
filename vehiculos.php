@@ -88,7 +88,7 @@ include('templates/head.php')
 <?php include('templates/nav.php')?>
 
 <section class=" pt-5">
-        <div class=" text-center">
+        <div class="text-center">
             <a href="problemaVehiculo.php">
                 <button class="btn-general rounded"><i class="bi bi-exclamation-lg"></i> Reportar problema </button>
             </a>
@@ -135,9 +135,10 @@ include('templates/head.php')
             </div>
         </div>
 
-        <table id="miTabla" class="table table-striped">
+        <table id="miTabla" class="table table-striped mt-5">
             <thead>
             <tr>
+                <th scope="col" class="text-center"></th>
                 <th scope="col" class="text-center">Modelo</th>
                 <th scope="col"  class="text-center">Patente</th>
                 <th scope="col"  class="text-center">Kilometraje</th>
@@ -147,6 +148,27 @@ include('templates/head.php')
             <tbody>
             <?php while ($row = mysqli_fetch_assoc($result)){ ?>
             <tr>
+                <td class="text-center">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
+                            $observaciones = obtenerObservaciones($row['id']);
+                            $observacionesJson = json_encode($observaciones);
+                            echo htmlspecialchars($observacionesJson);
+                        ?>"><i class="bi bi-info-circle"></i> Observaciones</button>
+                        <button class="2 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
+                            data-uso="<?php 
+                            $uso = obtenerUso($row['id']);
+                            $usoJson = json_encode($uso);
+                            echo htmlspecialchars($usoJson);?>"
+                        ><i class="bi bi-car-front-fill"></i> Uso</button>
+                    </div>
+                </div>
+                </td>
+
                 <td  class="text-center"><?php echo $row['modelo']?></td>
                 <td  class="text-center"> <?php echo $row['patente'] ?></td>
                 <td  class="text-center"> <?php echo $row['kilometraje'] ?></td>
@@ -175,27 +197,6 @@ include('templates/head.php')
                     }
                 ?>
                 </p>
-                </td>
-
-                <td class="text-center">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="bi bi-gear"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
-                            $observaciones = obtenerObservaciones($row['id']);
-                            $observacionesJson = json_encode($observaciones);
-                            echo htmlspecialchars($observacionesJson);
-                        ?>"><i class="bi bi-info-circle"></i> Observaciones</button>
-                        <button class="2 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
-                            data-uso="<?php 
-                            $uso = obtenerUso($row['id']);
-                            $usoJson = json_encode($uso);
-                            echo htmlspecialchars($usoJson);?>"
-                        ><i class="bi bi-car-front-fill"></i> Uso</button>
-                    </div>
-                </div>
                 </td>
                 
             </tr>

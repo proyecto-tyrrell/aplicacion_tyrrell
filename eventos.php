@@ -95,6 +95,7 @@ include('templates/head.php')
         <table class="table table-striped">
             <thead>
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Inicio</th>
                 <th scope="col">Fin</th>
                 <th scope="col">Lugar</th>
@@ -104,6 +105,18 @@ include('templates/head.php')
             </thead>
                 <?php while ($row = mysqli_fetch_assoc($result)){ ?>
              <tr>
+                <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="asistencias.php?id=<?php echo $row['id']; ?>">Asistencia</a>
+                        <a class="dropdown-item" href="editarEvento.php?id=<?php echo $row['id']; ?>">Editar <i class="bi bi-pencil"></i></a>
+                        <a class="dropdown-item" href="#" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)">Eliminar <i class="bi bi-trash"></i></a>
+                    </div>
+                </div>
+                </td>
                 <td> <?php echo  $row['fecha_inicio'] ?> </td>
                 <td> <?php echo  $row['fecha_fin'] ?> </td>
                 <td> <?php echo  $row['lugar']  ?></td>
@@ -129,18 +142,6 @@ include('templates/head.php')
                 <?php
                 }
                 ?>
-                <td>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="bi bi-gear"></i>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="asistencias.php?id=<?php echo $row['id']; ?>">Asistencia</a>
-                        <a class="dropdown-item" href="editarEvento.php?id=<?php echo $row['id']; ?>">Editar <i class="bi bi-pencil"></i></a>
-                        <a class="dropdown-item" href="#" onclick="mostrarRecuadroEliminar(<?php echo $row['id'];?>)">Eliminar <i class="bi bi-trash"></i></a>
-                    </div>
-                </div>
-                </td>
             </tr>
                   
                 <?php } ?>

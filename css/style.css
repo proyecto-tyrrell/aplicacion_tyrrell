@@ -532,6 +532,10 @@ line-height: 70px;}
   }
 
   section {
-    width: 95%;
+    width: 100%;
+  }
+
+  .container{
+    width: 100%;
   }
 }
