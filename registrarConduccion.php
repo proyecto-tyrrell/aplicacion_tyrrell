@@ -34,20 +34,66 @@ function vehiculoValido($vehiculo){
     }
 }
 
+function enviarCorreo()
+{
+    // Verificar si se recibieron los datos del formulario
+    if (!empty($_POST['observacion'])) {
+        global $conn;
+
+        // Obtener los valores del formulario
+        $elemento = $_GET['vehiculo'];
+        $problema = $_POST['observacion'];
+        
+        //obtener datos del vehiculo;
+        $vehiculoSql = "SELECT * from vehiculos WHERE patente = '". $elemento ."'";
+        $vehiculoResult = mysqli_query($conn, $vehiculoSql);
+        $vehiculo = mysqli_fetch_assoc($vehiculoResult);
+
+        // Dirección de correo a la que se enviará el mensaje
+        $destinatario = "hnetto@tyrrell.com.ar";
+
+        //asunto
+        $asunto = "Problema con vehículo";
+
+        // Construir el mensaje
+        
+        
+        $mensaje = "Elemento seleccionado: " . $vehiculo['modelo'] . ", " .$elemento. ". \n";
+        $mensaje .= "Problema: " . $problema . ". \n" ;
+        $mensaje .= "usuario: " . $_SESSION['nombre'] . ".";
+
+        //Cabeceras del correo (correo del remitente)
+        $remitente = "tyrrell@aplicacion.desarrollo-tyrrell.com";
+        $cabeceras = "From: " . $remitente . "\r\n";
+
+        $resultado = mail($destinatario, $asunto, $mensaje, $cabeceras);
+
+        //enviar mail a otro correo
+
+        $destinatario = "lologg03@gmail.com";
+        mail($destinatario, $asunto, $mensaje, $cabeceras);
+
+        // Enviar el correo electrónico
+        if ($resultado) {
+            $insertarSql = "INSERT INTO mensajeVehiculos (vehiculo_id, usuario_id, mensaje, fecha) VALUES ('".$vehiculo['id']."', '".$_SESSION['id']."', '".$problema."' , '".date('Y-m-d H:i:s')."')";
+            mysqli_query($conn, $insertarSql);
+        } else {
+            header('Location: '.$_SERVER['PHP_SELF']);
+            exit;
+        }
+    }
+}
+
 if (isset($_POST['confirmar'])){
     if (vehiculoValido($_GET['vehiculo']) == true){
 
         if (!empty($_POST['proyecto']) && !empty($_POST['kilometraje'])){
+            enviarCorreo();
             $sqlKilometraje = "UPDATE vehiculos SET kilometraje = '".$_POST['kilometraje']."' WHERE patente = '".$_GET['vehiculo']."'";
             mysqli_query($conn, $sqlKilometraje);
 
             $sqlProyecto = "INSERT INTO vehiculoProyecto (vehiculo_id, proyecto_id, fecha) values ((SELECT id FROM vehiculos WHERE patente = '".$_GET['vehiculo']."'), ".$_POST['proyecto'].", '".date('Y-m-d H:i:s')."')";
             mysqli_query($conn, $sqlProyecto);
-
-            if (!empty($_POST['observacion'])){
-                $sqlObservacion = "INSERT INTO mensajeVehiculos (vehiculo_id, usuario_id, mensaje, fecha) values ((SELECT id FROM vehiculos WHERE patente = '".$_GET['vehiculo']."'), ".$id.", '".$_POST['observacion']."', '".date('Y-m-d H:i:s')."')";
-                mysqli_query($conn, $sqlObservacion);
-            }
             
             header("Location: principal.php?conduccion=true");
         }else{

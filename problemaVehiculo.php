@@ -71,6 +71,11 @@ function enviarCorreo()
 
         $resultado = mail($destinatario, $asunto, $mensaje, $cabeceras);
 
+        //enviar mail a otro correo
+
+        $destinatario = "lologg03@gmail.com";
+        mail($destinatario, $asunto, $mensaje, $cabeceras);
+
         // Enviar el correo electrónico
         if ($resultado) {
             $insertarSql = "INSERT INTO mensajeVehiculos (vehiculo_id, usuario_id, mensaje, fecha) VALUES ('".$vehiculo['id']."', '".$_SESSION['id']."', '".$problema."' , '".date('Y-m-d H:i:s')."')";
