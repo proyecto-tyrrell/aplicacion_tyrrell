@@ -534,4 +534,8 @@ line-height: 70px;}
   section {
     width: 100%;
   }
+
+  table {
+    font-size: 75%;
+  }
 }
