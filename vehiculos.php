@@ -66,7 +66,7 @@ function obtenerObservaciones($vehiculoId) {
     global $conn;
 
     // Consulta SQL para obtener observaciones
-    $sqlObservaciones = "SELECT DATE(fecha) as fecha, mensaje FROM mensajeVehiculos WHERE vehiculo_id = $vehiculoId";
+    $sqlObservaciones = "SELECT DATE(fecha) as fecha, mensaje, resuelto FROM mensajeVehiculos WHERE vehiculo_id = $vehiculoId";
 
     $result = mysqli_query($conn, $sqlObservaciones);
     
