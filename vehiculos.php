@@ -66,7 +66,7 @@ function obtenerObservaciones($vehiculoId) {
     global $conn;
 
     // Consulta SQL para obtener observaciones
-    $sqlObservaciones = "SELECT DATE(fecha) as fecha, mensaje, resuelto FROM mensajeVehiculos WHERE vehiculo_id = $vehiculoId";
+    $sqlObservaciones = "SELECT id, DATE(fecha) as fecha, mensaje, resuelto FROM mensajeVehiculos WHERE vehiculo_id = $vehiculoId";
 
     $result = mysqli_query($conn, $sqlObservaciones);
     
@@ -158,7 +158,9 @@ include('templates/head.php')
                             $observaciones = obtenerObservaciones($row['id']);
                             $observacionesJson = json_encode($observaciones);
                             echo htmlspecialchars($observacionesJson);
-                        ?>"><i class="bi bi-info-circle"></i> Observaciones</button>
+                        ?>"
+                        data-rol="<?php echo $_SESSION['rol'];?>">
+                        <i class="bi bi-info-circle"></i> Observaciones</button>
                         <button class="2 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
                             data-uso="<?php 
                             $uso = obtenerUso($row['id']);

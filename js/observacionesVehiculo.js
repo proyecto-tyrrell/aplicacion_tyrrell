@@ -2,6 +2,7 @@ $(document).ready(function() {
     $('#miTabla').on('click', '.dropdown-item[data-toggle="modal"]', function() {
         
         var observaciones = $(this).data('observaciones');
+        var rol = $(this).data('rol');
 
         // Crear una tabla HTML para mostrar las observaciones
         var tableHTML;
@@ -18,10 +19,16 @@ $(document).ready(function() {
                 // Verificar si la observación está resuelta
                 if (observaciones[i].resuelto == 1) {
                     tableHTML += '<td class="text-center"><i class="bi bi-check-lg"></i></td>';
+                    if (rol === 'adm') {
+                        tableHTML += '<td class="text-center"><button class="marcar-resuelto-btn btn btn-primary" data-observacion-id="' +observaciones[i].id + '" data-resuelto="0">Marcar como no resuelto</button></td>';
+                    }
                 }else{
                     tableHTML += '<td class="text-center"><i class="bi bi-x"></i></td>';
+                    // Mostrar el botón de marcar como resuelto solo si el rol es 'adm'
+                    if (rol === 'adm') {
+                        tableHTML += '<td class="text-center"><button class="marcar-resuelto-btn btn btn-primary" data-observacion-id="' +observaciones[i].id + '" data-resuelto="1">Marcar como resuelto</button></td>';
+                    }
                 }
-                // No agregar ningún texto si no está resuelta (resuelto == 0)
 
                 tableHTML += '</tr>';
             }
@@ -37,5 +44,16 @@ $(document).ready(function() {
         // Activar el scroll vertical si es necesario
         $('#myModal .modal-body').css('max-height', '400px'); // Ajusta la altura máxima según tus necesidades
         $('#myModal .modal-body').css('overflow-y', 'auto');
+
+        // Evento para marcar como resuelto o no resuelto
+        $('#myModal').on('click', '.marcar-resuelto-btn', function() {
+            var observacionId = $(this).data('observacion-id');
+            var resuelto = $(this).data('resuelto');
+
+            window.location.href = 'marcarResuelto.php?observacionId=' + observacionId + '&resuelto=' + resuelto;
+
+            console.log('El valor de data-observacion-id es: ' + observacionId);
+            console.log('El valor de resuelto es:' + resuelto);
+        });
     });
 });

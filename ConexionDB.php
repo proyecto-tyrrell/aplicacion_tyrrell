@@ -17,7 +17,5 @@
         }
 
         return $conn;
-
-        
     }
 ?>
