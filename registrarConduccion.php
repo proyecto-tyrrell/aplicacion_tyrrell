@@ -94,7 +94,11 @@ if (isset($_POST['confirmar'])){
 
             $sqlProyecto = "INSERT INTO vehiculoProyecto (vehiculo_id, proyecto_id, fecha) values ((SELECT id FROM vehiculos WHERE patente = '".$_GET['vehiculo']."'), ".$_POST['proyecto'].", '".date('Y-m-d H:i:s')."')";
             mysqli_query($conn, $sqlProyecto);
-            
+
+            $sqlUsuarioVehiculo = "INSERT INTO usuarioVehiculo (usuario_id, vehiculo_id, fecha) values (".$id.", (SELECT id FROM vehiculos WHERE patente = '".$_GET['vehiculo']."'), '".date('Y-m-d H:i:s')."')";
+            mysqli_query($conn, $sqlUsuarioVehiculo);
+
+
             header("Location: principal.php?conduccion=true");
         }else{
             $completar = true;
