@@ -43,6 +43,25 @@ while ($estadoRow = mysqli_fetch_assoc($estadoResult)) {
     $estadoRows[] = $estadoRow['vehiculo_id'];
 }
 
+function usuarioVehiculo($vehiculoId){
+    global $conn;
+
+    //seleccionar vehiculos usados por usuario
+    $sqlUsuarioVehiculo = "SELECT u.nombreApellido AS usuario, fecha FROM usuarioVehiculo JOIN usuarios u ON usuario_id = u.id WHERE vehiculo_id = $vehiculoId ORDER BY fecha DESC";
+    $result = mysqli_query($conn, $sqlUsuarioVehiculo);
+
+    if ($result) {
+        $usuarioVehiculo = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $usuarioVehiculo[] = $row;
+        }
+        return $usuarioVehiculo;
+    } else {
+        return array("Error al obtener uso por usuario");
+    }
+
+}
+
 function obtenerUso($vehiculoId){
     global $conn;
 
@@ -135,6 +154,26 @@ include('templates/head.php')
             </div>
         </div>
 
+        <!-- Modal usuario vehiculo -->
+        <div class="modal fade" id="modalUsuarioVehiculo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                            <h5 class="modal-title" id="modalUsuarioVehiculoLabel">Uso por usuario</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <table id="miTabla" class="table table-striped mt-5">
             <thead>
             <tr>
@@ -167,6 +206,14 @@ include('templates/head.php')
                             $usoJson = json_encode($uso);
                             echo htmlspecialchars($usoJson);?>"
                         ><i class="bi bi-car-front-fill"></i> Uso</button>
+                        <?php if($_SESSION['rol'] === "adm"){?>
+                            <button class="3 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUsuarioVehiculo"         
+                                data-usuariovehiculo="<?php 
+                                $usuarioVehiculo = usuarioVehiculo($row['id']);
+                                $usuarioVehiculoJson = json_encode($usuarioVehiculo);
+                                echo htmlspecialchars($usuarioVehiculoJson);?>"
+                            ><i class="bi bi-car-front-fill"></i> uso por usuario</button>
+                        <?php } ?>
                     </div>
                 </div>
                 </td>
@@ -209,4 +256,5 @@ include('templates/head.php')
 </section>
 <script src="js\usoVehiculos.js"></script>
 <script src="js\observacionesVehiculo.js"></script>
+<script src="js\usuarioVehiculo.js"></script>
 <?php include('templates/footer.php')?>
