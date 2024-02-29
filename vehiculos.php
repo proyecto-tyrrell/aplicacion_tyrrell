@@ -119,7 +119,7 @@ include('templates/head.php')
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                            <h5 class="modal-title" id="myModalLabel">Observaciones</h5>
+                            <h5 class="modal-title" id="myModalLabel"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -139,7 +139,7 @@ include('templates/head.php')
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                            <h5 class="modal-title" id="modalUsoLabel">Uso</h5>
+                            <h5 class="modal-title" id="modalUsoLabel"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -159,7 +159,7 @@ include('templates/head.php')
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                            <h5 class="modal-title" id="modalUsuarioVehiculoLabel">Uso por usuario</h5>
+                            <h5 class="modal-title" id="modalUsuarioVehiculoLabel"></h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -193,21 +193,21 @@ include('templates/head.php')
                         <i class="bi bi-gear"></i>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
+                        <button class="dropdown-item" data-patente="<?php echo $row['patente'];?>" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#myModal"  data-observaciones="<?php
                             $observaciones = obtenerObservaciones($row['id']);
                             $observacionesJson = json_encode($observaciones);
                             echo htmlspecialchars($observacionesJson);
                         ?>"
                         data-rol="<?php echo $_SESSION['rol'];?>">
                         <i class="bi bi-info-circle"></i> Observaciones</button>
-                        <button class="2 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
+                        <button class="2 dropdown-item" data-patente="<?php echo $row['patente'];?>" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUso"         
                             data-uso="<?php 
                             $uso = obtenerUso($row['id']);
                             $usoJson = json_encode($uso);
                             echo htmlspecialchars($usoJson);?>"
                         ><i class="bi bi-car-front-fill"></i> Uso</button>
                         <?php if($_SESSION['rol'] === "adm"){?>
-                            <button class="3 dropdown-item" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUsuarioVehiculo"         
+                            <button class="3 dropdown-item" data-patente="<?php echo $row['patente'];?>" data-id="<?php echo $row['id']; ?>" data-toggle="modal" data-target="#modalUsuarioVehiculo"         
                                 data-usuariovehiculo="<?php 
                                 $usuarioVehiculo = usuarioVehiculo($row['id']);
                                 $usuarioVehiculoJson = json_encode($usuarioVehiculo);
@@ -255,6 +255,4 @@ include('templates/head.php')
     </div>
 </section>
 <script src="js\usoVehiculos.js"></script>
-<script src="js\observacionesVehiculo.js"></script>
-<script src="js\usuarioVehiculo.js"></script>
 <?php include('templates/footer.php')?>
