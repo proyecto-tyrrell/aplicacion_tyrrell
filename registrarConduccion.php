@@ -70,7 +70,7 @@ function enviarCorreo()
 
         //enviar mail a otro correo
 
-        $destinatario = "lologg03@gmail.com";
+        $destinatario = "lgomez@tyrrell.com.ar";
         mail($destinatario, $asunto, $mensaje, $cabeceras);
 
         // Enviar el correo electrónico
@@ -151,7 +151,7 @@ include('templates/head.php')
             
             <div class="mt-3">
                 <label for="observacion">Observación:</label>
-                <textarea id="observacion" name="observacion" placeholder="Observación" class="form-control"></textarea>
+                <textarea id="observacion" name="observacion" placeholder="Observación (opcional)" class="form-control"></textarea>
             </div>
 
             <div class="md-12 mt-5 text-center">
